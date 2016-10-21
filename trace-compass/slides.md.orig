@@ -1,0 +1,38 @@
+% title: Title of my presentation
+% title_class:                      #empty, largeblend[123] or fullblend
+% subtitle: And a subtitle
+% subtitle_class:
+% title_slide_class:
+% title_slide_image:
+% author: Firstname Lastname
+% author: Other info to put on the author line
+% thankyou_blend: largeblend3       #largeblend[123] or fullblend
+% thankyou_details: Especially thanks to Hilda Ericsson
+% mail: firstname.lastname@ericsson.com
+% phone: +46 10 xx xx xxx
+% sms: +46 72 xx xx xxx
+% lync: firstname.lastname@ericsson.com
+% footer: Ericsson Internal
+% footer: Rev PA1
+% footer: 2015-12-15
+% logoslide: false
+% useBuilds: true
+% animate: false         #animate logoslide (chrome only)
+% aspect_ratio: 16:9     #16:9, 16:10 or 4:3
+
+---
+title: My first slide
+subtitle: Subtitle Placeholder
+content_class: smaller
+
+- pressing 'f' toggle fullscreen
+- pressing 'w' toggles widescreen
+- pressing 'o' toggles overview mode
+- pressing 'p' toggles speaker notes (if any)
+- pressing 'h' highlights code snippets
+- pressing 'b' toggles blank screen
+- pressing 'c' toggles canvas to draw on the slide with the mouse
+    - Pressing 'shift' draws arrow
+    - Pressing 'alt' draws rectangle
+    - Pressing 'shift+alt' draws ellipse
+- pressing 'ESC' toggles of these goodies

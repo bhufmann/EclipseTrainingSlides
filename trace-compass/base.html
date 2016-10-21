@@ -1,0 +1,208 @@
+<!--
+erislides: A modification of the Google IO 2012 HTML5 slide template
+Author: Eric Andersson <eric.andersson@ericsson.com>
+
+Based on slidedeck, URL: https://github.com/rmcgibbo/slidedeck, and
+ultimately:
+
+Google IO 2012 HTML5 Slide Template
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahe <lukem@google.com>
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{- settings.title -}}</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!--<link rel="shortcut icon" href="figure/template/favicon.ico"/>-->
+  <link rel="shortcut icon" href="data:image/ico;base64, AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAF0mDExdJgyqXSYMf10mDCsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABdJgzsXSYM/10mDP9dJgz0XSYMuF0mDGJdJgwaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXSYM1F0mDP9dJgz/XSYM/10mDP9dJgz/XSYM610mDKBdJgxNXSYMCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF0mDCNdJgyFXSYM1V0mDP9dJgz/XSYM/10mDP9dJgz/XSYM/10mDN1dJgyFXSYMGgAAAAAAAAAAAAAAAAAAAAAAAAAAXSYMIl0mDB9dJgxGXSYMnV0mDOpdJgz/XSYM/10mDP9dJgz/XSYM/10mDJQAAAAAAAAAAAAAAAAAAAAAXSYMql0mDPVdJgzcXSYMg10mDDRdJgwcXSYMW10mDLRdJgz6XSYM/10mDP9dJgyMAAAAAAAAAAAAAAAAAAAAAF0mDPxdJgz/XSYM/10mDP9dJgz9XSYMxF0mDGpdJgwqXSYMJl0mDG5dJgxoXSYMEQAAAAAAAAAAAAAAAAAAAABdJgyEXSYM9V0mDP9dJgz/XSYM/10mDP9dJgz/XSYM8V0mDK9dJgxRXSYMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF0mDBxdJgxvXSYMxF0mDP9dJgz/XSYM/10mDP9dJgz/XSYM/10mDORdJgxTAAAAAAAAAAAAAAAAAAAAAF0mDDtdJgyIXSYMW10mDCJdJgwwXSYMhF0mDNddJgz/XSYM/10mDP9dJgz/XSYMqAAAAAAAAAAAAAAAAAAAAABdJgzpXSYM/10mDP9dJgzmXSYMnV0mDEJdJgwfXSYMRl0mDJ1dJgzmXSYM4l0mDFEAAAAAAAAAAAAAAAAAAAAAXSYM4F0mDP9dJgz/XSYM/10mDP9dJgz/XSYM110mDIFdJgwvXSYMHV0mDAwAAAAAAAAAAAAAAAAAAAAAAAAAAF0mDDFdJgyiXSYM5l0mDP9dJgz/XSYM/10mDP9dJgz/XSYM/10mDMZdJgxrXSYMEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF0mDBtdJgxiXSYMul0mDPZdJgz/XSYM/10mDP9dJgz/XSYM/10mDIsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABdJgwrXSYMeV0mDNBdJgz/XSYM/10mDP9dJgyVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABdJgwEXSYMPV0mDJFdJgyDXSYMGAAAAAAAAAAAw/8AAMB/AADADwAAwAMAAOADAADAAwAAwAMAAMAHAADgAwAAwAMAAMADAADABwAAwAMAAPADAAD+AwAA/4MAAA=="/>
+  <link rel="stylesheet" media="all" href="css/default.css"/>
+  <link rel="stylesheet" media="all" href="css/custom.css"/>
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script type="text/javascript" src="js/lib/highlight.pack.js"></script>
+  <script type="text/javascript" src="js/slidedeck.js"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      showProcessingMessages: false,
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        availableFonts: ["TeX"],
+        preferredFont: "TeX"
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  <!-- MathJax: Fall back to local if CDN offline -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script type="text/javascript" src="js/lib/MathJax/MathJax.js?config=TeX-AMS_HTML"><\/script>')</script>
+</head>
+
+<body style="opacity: 0">
+
+<svg>
+  <defs>
+    <linearGradient id="fullBlend-svg">
+      <stop offset="0%" stop-color="#A1C517"></stop>
+      <stop offset="25%" stop-color="#009045"></stop>
+      <stop offset="50%" stop-color="#0082B6"></stop>
+      <stop offset="75%" stop-color="#151F77"></stop>
+      <stop offset="100%" stop-color="#DB004F"></stop>
+    </linearGradient>
+    <linearGradient id="largeBlend1-svg">
+      <stop offset="0%" stop-color="#A1C517"></stop>
+      <stop offset="100%" stop-color="#009F80"></stop>
+    </linearGradient>
+    <linearGradient id="largeBlend2-svg">
+      <stop offset="0%" stop-color="#009F80"></stop>
+      <stop offset="100%" stop-color="#00529B"></stop>
+    </linearGradient>
+    <linearGradient id="largeBlend3-svg">
+      <stop offset="0%" stop-color="#151F77"></stop>
+      <stop offset="100%" stop-color="#DB004F"></stop>
+    </linearGradient>
+  </defs>
+</svg>
+
+{% macro logoslide() %}
+  {% if settings.animate == "true" %}
+  <slide class="logoslideanimate nobackground">
+    <article class="flexbox vcenter">
+      <div class="logo svganimate">
+  {% else %}
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <div class="logo">
+  {% endif %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="85" height="70" viewBox="-0.291, -0.32, 54, 48" x="917" y="50" fill="#002561"><g class="logolines"><path d="M19.128,12.461c-1.63,0.598-3.435-0.238-4.031-1.869c-0.598-1.629,0.239-3.433,1.867-4.03l17.372-6.369c1.629-0.598,3.434,0.239,4.032,1.869c0.597,1.629-0.239,3.433-1.869,4.029L19.128,12.461z"/><path d="M19.128,21.865c-1.63,0.597-3.435-0.24-4.031-1.869c-0.598-1.629,0.239-3.434,1.867-4.031l17.372-6.369c1.629-0.597,3.434,0.239,4.032,1.868c0.597,1.629-0.239,3.435-1.869,4.031L19.128,21.865z"/><path d="M19.128,31.268c-1.63,0.598-3.435-0.24-4.031-1.869c-0.598-1.629,0.239-3.435,1.867-4.031l17.372-6.369c1.629-0.597,3.434,0.239,4.032,1.868c0.597,1.629-0.239,3.434-1.869,4.031L19.128,31.268z"/></g><g class="logotext"><path d="M0 39.08h5.827v1.584h-3.77v1.377h3.615v1.643H2.058v1.42h3.83v1.598H0z"/><path d="M14.882 39.08h2.073v7.625h-2.073z"/><path d="M24.52 39.324l-.14 1.633c-1.675-.97-4.243-.66-4.288 1.883-.047 2.54 2.645 2.91 4.35 2.047l.107 1.666c-3.013.938-6.61-.018-6.595-3.713.014-3.623 3.643-4.625 6.565-3.516"/><path d="M30.623 39.207l-.14 1.588c-1.046-.576-3.03-.592-3.03.312 0 1.34 3.537.372 3.537 3.237 0 2.816-3.365 2.85-5.55 2.195l.155-1.683c1.367.64 3.306.778 3.306-.328 0-1.215-3.55-.53-3.55-3.256 0-2.23 2.766-2.83 5.273-2.067"/><path d="M36.878 39.207l-.137 1.588c-1.047-.576-3.028-.592-3.028.312 0 1.34 3.536.372 3.536 3.237 0 2.816-3.367 2.85-5.55 2.195l.153-1.683c1.367.64 3.306.778 3.306-.328 0-1.215-3.55-.53-3.55-3.256 0-2.23 2.767-2.83 5.272-2.067"/><path d="M46.425 39.08h2.626l2.51 4.918V39.08h1.904v7.625H50.99l-2.644-5.012v5.012h-1.92z"/><path d="M41.645 38.896c2.154.002 3.797 1.263 3.797 4.013 0 2.628-1.65 3.98-3.797 3.98-2.142.002-3.783-1.32-3.783-3.98 0-2.752 1.632-4.014 3.783-4.014m-1.663 4.012c0 1.162.498 2.48 1.662 2.478 1.162-.002 1.65-1.313 1.658-2.478.01-1.05-.496-2.473-1.658-2.475-1.164 0-1.662 1.313-1.662 2.475"/><path d="M9.315 42.293h1.138c.513.01.974-.3.97-.862-.005-.496-.413-.85-.94-.843H9.317v1.706zM7.332 39.08h3.736c1.015 0 2.428.445 2.428 2.03 0 1.013-.46 1.58-1.333 1.845.04-.004.498.195.688.77.008.018 1.07 2.975 1.082 2.98H11.73l-.785-2.29c-.12-.355-.382-.587-.754-.587-.322 0-.83-.02-.83 0v2.877H7.333V39.08z"/></g></svg>
+      </div>
+    </article>
+  </slide>
+{% endmacro %}
+
+<slides {% if settings.aspect_ratio == "16:9" %}class="layout-widescreen2"{% elif settings.aspect_ratio == "4:3" %}{% else %}class="layout-widescreen"{% endif %} >
+{% if settings.logoslide == "true" %}
+  {{ logoslide() }}
+{% endif %}
+
+{% macro blend(text, clipid, fill) %}
+  <svg width="860px" height="65px">
+    <g>
+      <clipPath id="clipPath-{{ clipid }}">
+        <text class="wrapme" y="90%" x="0" letter-spacing="-3px">{{ text }}</text>
+      </clipPath>
+      <rect width="100%" height="100%" fill="url(#{{ fill }})" clip-path="url(#clipPath-{{ clipid }})"></rect>
+    </g>
+    <text y="90%" x="0" letter-spacing="-3px" visibility="hidden">{{ text }}</text>
+  </svg>
+{% endmacro %}
+
+<slide class="title-slide segue {% if settings.title_slide_class %}{{- settings.title_slide_class -}}{% endif %}" {% if
+settings.title_slide_image %}style="background-image: url({{- settings.title_slide_image -}}) !important;background-size: cover;background-repeat: no-repeat"{% endif %}>
+  <hgroup class="auto-fadein">
+    <h1 {% if settings.title_class %}class="{{- settings.title_class|replace("fullblend","")|replace("largeblend1","")|replace("largeblend3","")|replace("largeblend2","")|replace("smallblend1","")|replace("smallblend2","")|replace("smallblend3","")|replace("smallblend4","")|replace("smallblend5","") -}}"{% endif %}>
+    {% if "fullblend" in settings.title_class %}
+      {{ blend(settings.title, 'title', 'fullBlend-svg') }}
+    {% elif "largeblend1" in settings.title_class %}
+      {{ blend(settings.title, 'title', 'largeBlend1-svg') }}
+    {% elif "largeblend2" in settings.title_class %}
+      {{ blend(settings.title, 'title', 'largeBlend2-svg') }}
+    {% elif "largeblend3" in settings.title_class %}
+      {{ blend(settings.title, 'title', 'largeBlend3-svg') }}
+    {% else %}
+      {{- settings.title -}}
+    {% endif %}
+    </h1>
+    <h2 {% if settings.subtitle_class %}class="{{- settings.subtitle_class -}}"{% endif %}>{{- settings.subtitle -}}</h2>
+    <p>{{- settings.author -}}</p>
+  </hgroup>
+</slide>
+
+{% for slide in slides %}
+<slide {% if slide.class %}class="{{- slide.class -}}"{% endif %} {% if
+settings.footer %}data-footer-fields="{{- settings.footer -}}"{% endif %} {% if
+slide.image %}style="background-image: url({{- slide.image -}}) !important;background-size: cover;background-repeat: no-repeat"{% endif %}>
+  <hgroup {% if 'segue' in slide.class %}class="auto-fadein"{% endif %}>
+    <h2 {% if slide.title_class %}class="{{- slide.title_class|replace("fullblend","")|replace("largeblend1","")|replace("largeblend3","")|replace("largeblend2","")|replace("smallblend1","")|replace("smallblend2","")|replace("smallblend3","")|replace("smallblend4","")|replace("smallblend5","") -}}"{% endif %}>
+    {% if "fullblend" in slide.title_class %}
+      {{ blend(slide.title, loop.index, 'fullBlend-svg') }}
+    {% elif "largeblend1" in slide.title_class %}
+      {{ blend(slide.title, loop.index, 'largeBlend1-svg') }}
+    {% elif "largeblend2" in slide.title_class %}
+      {{ blend(slide.title, loop.index, 'largeBlend2-svg') }}
+    {% elif "largeblend3" in slide.title_class %}
+      {{ blend(slide.title, loop.index, 'largeBlend3-svg') }}
+    {% else %}
+      {{- slide.title -}}
+    {% endif %}
+    </h2>
+    <h3 {% if slide.subtitle_class %}class="{{- slide.subtitle_class -}}"{% endif %}>{{- slide.subtitle -}}</h3>
+  </hgroup>
+  {% if 'segue' not in slide.class %}
+  <article {% if slide.content_class %}class="{{- slide.content_class -}}"{% endif %}>
+  {{- slide.content -}}
+  </article>
+  {% endif %}
+</slide>
+{% endfor %}
+
+{% if settings.thankyou_blend %}
+<slide class="thank-you-slide">
+  <article class="auto-fadein">
+    <div class="thank-container">
+    <h2>
+      <svg width="350px" height="240px"><g><clipPath id="thankyou"><text y="90%" x="0" letter-spacing="-3px"><tspan id="ty-thank" x="0" y="0.9em">Thank</tspan><tspan id="ty-you" x="0" dy="0.8em">You</tspan></text></clipPath><rect width="100%" height="100%"
+      {% if "fullblend" in settings.thankyou_blend %}
+      fill="url(#fullBlend-svg)"
+      {% elif "largeblend1" in settings.thankyou_blend %}
+      fill="url(#largeBlend1-svg)"
+      {% elif "largeblend2" in settings.thankyou_blend %}
+      fill="url(#largeBlend2-svg)"
+      {% else %}
+      fill="url(#largeBlend3-svg)"
+      {% endif %}
+       clip-path="url(#thankyou)"></rect></g></svg>
+    </h2>
+    <p>{{- settings.thankyou_details -}}</p>
+    </div>
+  </article>
+  <p class="auto-fadein contact">
+  {% if settings.mail %}
+    <span><img style="height: 18px;padding-bottom:4px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEEAAAAwCAMAAAB5V+cTAAAAhFBMVEUAAABCPD9DPT9DPD5DPT9DPT9BOz1DPT9DPT9DPT9CPD5DPT9CPD9DPT9DPT9DPT9CPD5CPD5CPD5DPD9DPT9DPT9DPT9DPT9CPD5CPD5DPT9CPD5DPT9CPD5CPD5DPT9CPD5DPT9DPT9DPT9DPT9DPT5DPD5DPT9DPT9DPT9DPD5DPT+5IFOsAAAAK3RSTlMACsINx/wD+PG0FZRb7eHdPikZecqZ5s5TJXE4ri8ghUK804x+YUvXpp1pV9AIrwAAAj1JREFUSMedlouSojAQRZtHGB6jMIyCqOBz1bX///82CSvX2uyQwC2qkCo9JCfdiUTlJRc8L6JaN0RdIpjn59RRJm9x6M9JGDNzRpUiHFJvetKDIlQk+ENeWUpTk2YfLORFzLViJc1EwFeixl4zS0IYfC6ZV8UkQLFiXn4G4V8CFbV6jsg1kXpnfSQQ+jF9e44A71vN+4so8FloQu/F2We6lt/9XaqxPO9rTei5C8V1dXgN+umU3kCQc8vh0+Kw+gVnLwL8RnaH5+PrMWhTEGSavfZpc3hqB95hcXojvHyu01GHQjvsg9XEO7aGT6MOAxojULSRPuvi/w5rODQJyC6ET9PhjchC0D6F9Bn8Awjg0Eqg9KJ8lvSeUjl8dOREgE/ToRMBPo/D81E5fEbkQIBPX/uEwzscuhGoG3xqh35LUwlBJlj51A6Z9+VUQvcQLCQjuSWsP5xaVwI0xFe1JHIAi+01RkPaCFiKpaxfded8o13qgrYTUA71sR9L7O/69dQbk4WAkkQ9lbsSNSUbf5yAtkBNI3pNkmaEgNZEX5m9tSpGCHCI3jb7O99EPxDgcFWM7tOLrfczIc3g0Ah8XlKD8O4wS+1n/qMzCBii9ezUZ5vfmoTeYT5+3uBsu98MgkTDofO5B0LvcN+QJRCmSxwEpdhwaPGpzv+B4GGZnYK92OsJqydKzSnYi2+KIEsgZg535B40ULVgof+RiqT1pqdNBEsIZYpw9ufkrAgZdSfm+RFJR9SsKzH39/mlpD8f0n+h6YmZRwAAAABJRU5ErkJggg=="></span>
+    <a href="mailto:{{- settings.mail -}}">{{- settings.mail -}}</a>
+    <br>
+  {% endif %}
+  {% if settings.phone %}
+    <span><img style="height: 26px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAwCAMAAAAxSDrWAAAAY1BMVEUAAABDPT9CPD5DPT9CPD5DPT9DPT9CPT5DPT9DPT9DPT5DPT9DPT9DPT9DPT9DPT9CPD9CPD5DPT9DPT9DPT5DPT5CPD5DPT9DPT9DPT9CPD5DPT9DPT9DPT9DPT9DPT9DPT8bTWLyAAAAIHRSTlMA3x3iIOdfJKBHGtCz69d0PAb0rVI2FYmEPg24kXhwMIGPqugAAAC8SURBVDjL7dTJDoQgEEVRhgIVRcS57an+/ysbElyQWLrthWd7Q6jVY2OLpLpiLSp5jCusGapOQFJEsBMPhQy5YEk1NIFmO8GzvGBUeiLPVWTy19ZpgrMhn2LYDyVh6OPfwAiQTiPMtSJz9J1Sppxl/17PsuB45zv/TZYdFIegkyGjVQSLMUtOkDHLyYjEGDBG7Mwk89M216wzffkHERc6lyE/PZl1j+jo13586S3L2WhCuBey0byY3IvB/gGsvCDvEVScOwAAAABJRU5ErkJggg=="></span>
+    <a href="tel:{{- settings.phonenr -}}">{{- settings.phone -}}</a>
+    <br>
+  {% endif %}
+  {% if settings.sms %}
+    <span><img style="height:20px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAAwCAMAAAB3/pl8AAAAk1BMVEUAAABDPT9DPT9CPD9DPT9DPT5DPT9DPT9DPT9CPT9DPT5COz5DPT9CPD5DPT9DPT9CPD1DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9CPD5DPT9DPT9DPT9CPD5DPT9DPT9DPT9DPT9DPT9CPD5CPD5CPD5DPT9DPT9DPT9CPD5DPT9DPT9DPT9DPT9DPT9CPT9DPT9DJVomAAAAMHRSTlMAY/sf4CvlU+lbJAXJEITYDvju0fPFo394Fb2MhjOU4qidRzknCmxpTRqrmnE/slmqWz0hAAACQklEQVRIx53W2XqqMBQF4EUYNSjzIAiIOA/tev+nOwfka21ri/jfABfJXmQTAPekvlsFlscHPMOulY3EY665qgT/ILR6vcVP8pB5pB/VyV55YJfEtk+Gp+uPyscypGenhYtfzZokELTmC3xRZGSgLDDgeHHItw3uNAHDUsUTNrHHk7yrGdDfSTzFTYxcfsbI6E/wLDl1P89LejuMoZ8P6Bx8lluMsaejd+EzBipG0TWeJQDTE0o3xdocdrj1L6XfAHJFu7veCYpBXKKlOu2JXjFFy9SsYcYenZz2EXvhF2hJVR82leisvfCAmNEMo6kalwhYY7xtxjdYTPCCmAE89nc+O0yGmQvc5NRAKuhc+IwlbhIan0NNxximKXdDPe7QkcfpMFV+BHZgcI4X1IwQcSVfas4JJYMFRtMNJph44fXWHFMZ9t6XmTBcY+r0C74b0Zx+u5V0up1+cCptSOVM0Cqsbo6r3++6hTrsKLuiZxpFe4yp6Rhl7fP2Qm0MrlyMoEZ0NuikQiQjejuLGU5w464YXuTTI0shlhI9NWOYuE+mjQXrGT5sMoqVjmFyHVHUi+9zaak6NLAofYbzb/ncS0U6eYNfbafvsUUGpsR3Re2TWr/oejr/YpnHUSVIbf4wmWyC/pk8phUf8KN0g8f0ikmb7N0mDfur6K3c//Gjkbd5ZXPyGMaF687uuFs58OlbQs0tisjcYpQ5tUZxSC1dYJypQzvz6J91jJXyP5GtJcZSA5LOfobxJqSVT/GKqxGNzPoPLPZaB60tobwAAAAASUVORK5CYII="></span>
+    <a href="sms:{{- settings.smsnr -}}">{{- settings.sms -}}</a>
+    <br>
+  {% endif %}
+  {% if settings.lync %}
+    <span><img style="height:20px;padding-bottom:2px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAAAwCAMAAABjawedAAAAk1BMVEUAAABDPT9CPD1DPT9CPD5DPT9DPT9DPT9CPD5CPD5DPT9CPD5DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9CPD5DPT9CPD5DPT9DPT9CPD5DPT9CPD5CPT5CPD5CPD5CPD5DPT9DPT9CPD5DPT9DPT9DPT9DPD9DPD9CPD5DPT9DPT9DPT9DPT8nxFTtAAAAMHRSTlMA8gboM346eCoK+xKNnszAxPdcte7SroQOphff2QzkSEExHhu5bifJmopMUyJ0ZZQXzPNkAAADMUlEQVRIx6XWWbaiMBQF0EuCgOFJ34ggimKvzzP/0ZW4QCgBhar9S0hzcxKg76byLUg8gRbhJYGqLGkE3XG5QD/uOjoNNL1YAhDcCKJZSxQcePHUPDMaYnOUAB45mt7ZnumaE3FACodMT7YA7yh/HJlljxFFtKBvFB84rL6ugp19IPo2u8wHgisNoJmwV/TRIgceCxhkH7ifh2UhkG8H7/2y3cFin8mlzOGI5TJymdxrz6qXZY1q83Xo+qknVWyIXdnuKPXjTvn+mvv7V1+OKeHNYVE+s/DBpOxhZUOtti+wATtx7+GkZAC7V1Im/XZVaXWrGn6VAPy42tbRWuaI9zTKBNL5ueQYwlXYX1ueImA0ytrGqXjTgPipo1xXYZxNArPYMuD+HhcH4lIve6/12rBXKxPxY4YezFZKb5DWrxjeeb+kHjSCRGwG6ULvVHgy0bCEVGYAaTHy+cfeaH366aVuG70J+hXYUcsO9prGYcVKZ8UsWi4CDg1W74IBX6cWRUI4NiExcuJwO2K69ZFPqaQr/TTWiGhINqLuIvCsurtmQ+4QOkFaEXCkDo7AZFRCtn5x6gVmRJ1LTa5VEW9qr9/qrv8VxVn0eo63CpzYiD0wEGtEPgy957G3Gh62E54hKMvd5kjwNWrra2xsiKqz0Da9A+bA7s4pvPPzXkxgzrs/qAFwUIYs00lh3+jpDtvpqawLpDudvliEHuywzLrCcdhQp+1MQJjO4vP/nSXgqdPGdhyX1Gm+SwHbOJ21xXz6F1Y2UA0b8C+snoEFcVpSt+zIAQjuH6y/BCv2LL8NpKcrNSgJxGzTV2I5tCS0efd9cZFKOGT1xF7fU6P393XpxIB9MJssD0h+5zTPXwewppiAMG7P5bK53rBRdrkE8Js+bZqfLQHbVbrjug2LchcB1I5Ggx9LwOO1NWvlQk0BHso+zI5FyQk8hfRdjDcijS6d8ZYDGzCMYhItMkewXOcC8N1aEIXOnvUW1Edh1m4QQqgnr5j8hjXQR9cfD0CaddyOdlG6QGE0AluZAph03NwP/mPTR9JvcevzxgIA3s+V/kF2WbwXIIbIyxj8Pz33Jjr9tz+vmYBk7xiwGAAAAABJRU5ErkJggg=="></span>
+    <a href="im:sip:{{- settings.lync -}}">Lync IM</a>
+    <br>
+  {% endif %}
+    {{- settings.contact -}}
+  </p>
+</slide>
+{% endif %}
+
+{{ logoslide() }}
+<slide class="backdrop"></slide>
+
+</slides>
+</body>
+</html>
