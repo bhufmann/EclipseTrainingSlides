@@ -22,7 +22,6 @@
 ---
 title: Module 3
 subtitle: Analysis Framework
-content_class: bigger
 
 - Overview
 - Analysis Module
@@ -36,7 +35,6 @@ content_class: bigger
 
 title: Analysis Framework Overview
 subtitle: 
-content_class: bigger
 
 - API for integrating trace analyses
 - Plug-in extension point
@@ -52,7 +50,6 @@ TODO: picture
 ---
 title: Analysis Module
 subtitle:
-content_class: bigger
 
 - API for data collection
 - Can have dependent analysis and requirements on trace content
@@ -76,7 +73,6 @@ content_class: bigger
 ---
 title: Analysis Module (2)
 subtitle: 
-content_class: bigger
 
 - Analysis is scheduled <code>IAnalysisModule#schedule()</code>
 - <code>IAnalysisModule#waitForCompletion()</code> will block thread until completion
@@ -117,7 +113,6 @@ content_class: smaller
 ---
 title: Plug-in Manifest Editor
 subtitle: 
-content_class: bigger
 
 - Click on **Add...** Button
 - Find org.eclipse.linuxtools.tmf.core.analysis
@@ -129,7 +124,6 @@ content_class: bigger
 ---
 title: Project Explorer
 subtitle: 
-content_class: bigger
 
 - Shows all available analyses under trace or experiment
 - Note: Need to open trace to see available analyses
@@ -139,7 +133,6 @@ content_class: bigger
 ---
 title: Exercise: Create an analysis
 subtitle: 
-content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Add a new analysis module by adding an extension (plugin.xml)
@@ -157,7 +150,6 @@ content_class: bigger
 ---
 title: Exercise: Review
 subtitle: 
-content_class: bigger
 
 - Defining an analysis extension
 - Implementing an analysis module class
@@ -168,7 +160,6 @@ content_class: bigger
 
 title: Apply to Trace Type
 subtitle: 
-content_class: bigger
 
 - Define the trace type the analysis applies (or not)
 
@@ -188,7 +179,6 @@ content_class: bigger
 
 title: Apply to Trace Type (2) 
 subtitle: 
-content_class: bigger
 
 - Right-click on analysis module -> New -> tracetype
 - Fill-in the class
@@ -199,7 +189,6 @@ content_class: bigger
 
 title: Exercise: Apply to trace type
 subtitle: 
-content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Right-click on Processing Analysis -> New -> tracetype
@@ -213,7 +202,6 @@ content_class: bigger
 ---
 title: Exercise: Review
 subtitle: 
-content_class: bigger
 
 - Applying analysis to a trace type
 - Exploring the analysis in Project Explorer
@@ -224,7 +212,6 @@ content_class: bigger
 ---
 title: Analysis Requirements
 subtitle: 
-content_class: bigger
 
 - 
 - Provide information to user if analysis can't run
@@ -233,7 +220,7 @@ content_class: bigger
 
 	<pre class="prettyprint" data-lang="java">
 	public interface IAnalysisRequirementProvider {
-		Iterable<TmfAbstractAnalysisRequirement> getAnalysisRequirements();
+		Iterable&lt;TmfAbstractAnalysisRequirement&gt; getAnalysisRequirements();
 	</pre>
 
 - Extend <code>TmfAbstractAnalysisRequirement</code> or
@@ -246,13 +233,12 @@ content_class: bigger
 ---
 title: Analysis Requirements Example
 subtitle: 
-content_class: bigger
 
 - 
 
 	<pre class="prettyprint" data-lang="java">
 	@Override
-	public Iterable<TmfAbstractAnalysisRequirement> getAnalysisRequirements() {
+	public Iterable&lt;TmfAbstractAnalysisRequirement&gt; getAnalysisRequirements() {
 		Set<TmfAbstractAnalysisRequirement> requirements = fAnalysisRequirements;
 		if (requirements == null) {
 		Set<String> requiredEvents = ImmutableSet.of(
@@ -271,7 +257,6 @@ content_class: bigger
 ---
 title: Exercise: Add Analysis Requirements
 subtitle: 
-content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Open class <code>ProcessingTimeAnalysis</code> 
@@ -287,7 +272,6 @@ content_class: bigger
 ---
 title: Exercise: Review
 subtitle: 
-content_class: bigger
 
 - Implementing analysis requirement for event names
 - Providing the analysis requirement from the analysis 
@@ -300,7 +284,6 @@ content_class: bigger
 
 title: Analysis Parameter Provider
 subtitle:
-content_class: bigger
 
 - Analysis may have parameters
 - Default values can be set as part of analysis extension
@@ -320,7 +303,6 @@ content_class: bigger
 ---
 title: Parameter Provider Example
 subtitle:
-content_class: bigger
 
 - 
 	<pre class="prettyprint" data-lang="java">
@@ -347,7 +329,6 @@ content_class: bigger
 
 title: Dependent Analyses 
 subtitle:
-content_class: bigger
 
 - An analysis can depend on other analyses
 - Dependent analysis need to execute beforehand
@@ -372,7 +353,6 @@ content_class: bigger
 
 title: Analysis Output
 subtitle: 
-content_class: bigger
 
 - Analysis can have one or more outputs
 - Typically it's an Eclipse view
@@ -395,7 +375,6 @@ content_class: bigger
 ---
 title: Plug-in Extension Point
 subtitle: Plug-in Manifest Editor
-content_class: bigger
 
 - Right-click on <code>org.eclipse.linuxtools.tmf.core.analysis</code> -> New -> output
 	- Fill in class of output and id of view
@@ -407,7 +386,6 @@ content_class: bigger
 ---
 title: Exercise: Create an output
 subtitle: 
-content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Create a Eclipse view (see Plug-in Development course)
@@ -425,7 +403,6 @@ content_class: bigger
 ---
 title: Exercise: Review
 subtitle: 
-content_class: bigger
 
 - Implementing analysis output
 - Opening the output from the Project Explorer
@@ -433,9 +410,295 @@ content_class: bigger
 
 ---
 
+title: Module 4
+subtitle: Generic State System
+
+- Generic State System Overview
+- State System API
+- State System Analysis Module
+
+---
+
+title: Generic State System Overview
+subtitle: 
+
+<center><img src="images/StateSystemOverview.png" width="50%" height="50%"/></center>
+
+- Utility to track states over the duration of a traces
+- State system abstracts events, analyzes traces and creates models to be displayed
+- Persistent on disk, does not need to be rebuilt between runs
+- Allows fast (O(log n)) queries of state attributes by time or type
+- Support for several state systems in parallel
+
+<center><img src="images/StateSystemKernelExample.png" width="70%" height="70%"/></center>
+
+---
+
+title: State System Definitions
+subtitle:
+
+- Attribute
+	- Smallest element of a state
+- Attribute Tree: 
+	- Tree-like structure
+	- Each attribute can have a value and sub-attributes
+	- Access attributes using a path
+- Quark:
+	- Unique, constant identifier of an attribute
+	- Makes faster queries
+- State Value:
+	- Value of the attribute
+	- Changes over the time of the trace
+
+---
+title: State System Definitions (2)
+subtitle:
+
+- State Interval
+	- State intervals are returned when querying the state system
+
+- State History
+	- Storage container of all the state intervals
+	- State system backend determines how state history is stored
+	- State history can be on disk or in memory 
+
+- Queries
+	- Queries return state intervals
+	- Full query: give the whole state of model for given timestamp
+	- Single querY: Returns the state of a particular attribute for the given timestamp
+
+---
+
+title: Attribute Tree example
+subtitle:
+
+- Linux Kernel State System
+- Example path: Processes/1001/PPID
+
+	<pre>
+	  |- CPUs
+	  |  |- &lt;CPU number&gt; -&gt; CPU Status
+	  |  |  |- CURRENT_THREAD
+	  |  |  |- SOFT_IRQS
+	  |  |  |  |- &lt;Soft IRQ number&gt; -&gt; Soft IRQ Status
+	  |  |  |- IRQS
+	  |  |  |  |- &lt;IRQ number&gt; -&gt; IRQ Status
+	  |- THREADS
+	  |  |- &lt;Thread number&gt; -&gt; Thread Status
+	  |  |  |- PPID
+	  |  |  |- EXEC_NAME
+	  |  |  |- PRIO
+	  |  |  |- SYSTEM_CALL
+	  </pre>
+
+
+---
+
+title: State System API
+subtitle: 
+
+- All state provider implement <code>ITmfStateProvider</code>
+	- Extend abstract class <code>AbstractTmfStateProvider</code>
+- Create a state system and assign a backend: <code>StateSystemFactory</code>
+- Read and write interface to the state system: <code>ITmfStateSystemBuilder</code>
+- Query interface: <code>ITmfStateSystem</code>
+- State value interface: <code>ITmfStateValue</code>
+- State interval interface: <code>ITmfStateInterval</code>
+
+---
+
+title: Building a state system
+subtitle: ITmfStateSystemBuilder
+
+- Main interface used during state system building: <code>ITmfStateSystemBuilder</code>
+- Getting/adding an attribute quark using an absolute path 
+
+	<pre class="prettyprint" data-lang="java">
+	int getQuarkAbsoluteAndAdd(String... attribute);
+    </pre>
+
+- Getting/adding an attribute quark using a relative path
+
+	<pre class="prettyprint" data-lang="java">
+	int getQuarkRelativeAndAdd(int startingNodeQuark, String... subPath);
+    </pre>
+
+---
+
+title: Building a state system (2)
+subtitle: ITmfStateSystemBuilder
+
+- Modifying a state value when state change occurs
+- Note: timestamp is a long value
+
+	<pre class="prettyprint" data-lang="java">
+	void modifyAttribute(long t, @NonNull ITmfStateValue value, int attributeQuark)
+		throws StateValueTypeException;
+	</pre>
+
+- Update an ongoing state value 
+	- When getting value only at the end of the state
+	- e.g. return value of a function call
+
+	<pre class="prettyprint" data-lang="java">
+	void updateOngoingState(@NonNull ITmfStateValue newValue, int attributeQuark);
+	</pre>
+
+---
+
+title: Building a state system (3)
+subtitle: ITmfStateSystemBuilder
+
+- Push and pop a state value on a stack
+
+	<pre class="prettyprint" data-lang="java">
+	void pushAttribute(long t, @NonNull ITmfStateValue value, int attributeQuark)
+		throws StateValueTypeException;
+	</pre>
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateValue popAttribute(long t, int attributeQuark)
+		throws StateValueTypeException;
+	</pre>
+
+---
+title: Query a state system
+subtitle: ITmfStateSystem
+
+- Main interface for accessing state system <code>ITmfStateSystem</code>
+- Use after state system is build
+- Throws an exception if attribute doesn't exist
+- Getting a quark of an attribute from absolute path
+
+	<pre class="prettyprint" data-lang="java">
+    int getQuarkAbsolute(String... attribute)
+            throws AttributeNotFoundException;
+	</pre>
+
+- Getting a quark from a relative path
+
+	<pre class="prettyprint" data-lang="java">
+	int getQuarkRelative(int startingNodeQuark, String... subPath)
+		throws AttributeNotFoundException;
+	</pre>
+
+---
+title: Query a state system (2)
+subtitle: ITmfStateSystem
+
+- Getting a quark of an optional attribute from absolute path
+- returns <code>#INVALID_ATTRIBUTE</code> (-2) if it doesn't exist
+
+	<pre class="prettyprint" data-lang="java">
+    int optQuarkAbsolute(String... attribute)
+            throws AttributeNotFoundException;
+	</pre>
+
+- Getting a quark of an optional attribute from relative path
+- returns <code>#INVALID_ATTRIBUTE</code> (-2) if it doesn't exist
+
+	<pre class="prettyprint" data-lang="java">
+	int optQuarkRelative(int startingNodeQuark, String... subPath)
+		throws AttributeNotFoundException;
+	</pre>
+
+---
+title: Query a state system (3)
+subtitle: ITmfStateSystem
+
+- Getting a list of quarks from a wildcarded path ("*" or "..")
+
+	<pre class="prettyprint" data-lang="java">
+    List<Integer> getQuarks(String... pattern);
+	</pre>
+
+- Getting a list of quarks from a wildcarded path relatively ("*" or "..")
+
+	<pre class="prettyprint" data-lang="java">
+    List<Integer> getQuarks(int startingNodeQuark, String... pattern);
+	</pre>
+
+- Wait until a state system is build (with or without timeout)
+
+	<pre class="prettyprint" data-lang="java">
+	void waitUntilBuilt();
+	void waitUntilBuilt(long timeout);
+	</pre>
+
+---
+title: Query a state system (4)
+subtitle: ITmfStateSystem
+
+- Query a single state at a given timestamp
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateInterval querySingleState(long t, int attributeQuark)
+		throws StateSystemDisposedException;
+	</pre>
+
+
+- Query full state at a given timestamp
+
+	<pre class="prettyprint" data-lang="java">
+	List&lt;ITmfStateInterval&gt; queryFullState(long t)
+		throws StateSystemDisposedException;
+	</pre>
+
+---
+title: State Value Interface
+subtitle: 
+
+- All state values implement interface <code>ITmfStateValue</code>
+
+	<pre class="prettyprint" data-lang="java">
+	public enum Type {NULL, INTEGER, LONG, DOUBLE, STRING, CUSTOM;}
+	</pre>
+
+- Create a state value using state value factory <code>TmfStateValue</code>, for example:
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateValue value = TmfStateValue.nullValue();
+	ITmfStateValue intValue = TmfStateValue.newValueInt();
+	ITmfStateValue longValue = TmfStateValue.newValueLong();
+	</pre>	
+
+- Read the value, for example: <code>IntegerStateValue</code>
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateInterval interval = getInterval();
+	if (interval.getValue().getType() == Type.Integer) {
+		int retVal = interval.getValue().unboxInt();
+	}
+	</pre>
+
+---
+title: State Interval Interface
+subtitle: 
+
+- All state intervals implement interface <code>ITmfStateInterval</code>
+- Has a start and end time
+
+	<pre class="prettyprint" data-lang="java">
+	long getStartTime();
+	long getEndTime();
+	</pre>
+	
+- Provides the quark and state value
+
+	<pre class="prettyprint" data-lang="java">
+	int getAttribute();
+	ITmfStateValue getStateValue();
+	</pre>
+
+- Validates whether it intersects with given timestamp
+
+	<pre class="prettyprint" data-lang="java">
+	boolean intersects(long timestamp);
+	</pre>
+
+---
 title: My other slide
 subtitle: Subtitle Placeholder
-content_class: bigger
 
 - pressing 'f' toggle fullscreen
 - pressing 'w' toggles widescreen
