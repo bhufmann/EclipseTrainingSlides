@@ -22,7 +22,7 @@
 ---
 title: Module 3
 subtitle: Analysis Framework
-content_class: smaller
+content_class: bigger
 
 - Overview
 - Analysis Module
@@ -36,7 +36,7 @@ content_class: smaller
 
 title: Analysis Framework Overview
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - API for integrating trace analyses
 - Plug-in extension point
@@ -52,7 +52,7 @@ TODO: picture
 ---
 title: Analysis Module
 subtitle:
-content_class: smaller
+content_class: bigger
 
 - API for data collection
 - Can have dependent analysis and requirements on trace content
@@ -62,16 +62,13 @@ content_class: smaller
 
 	<pre class="prettyprint" data-lang="java">
 	public class ProcessingTimeAnalysis extends TmfAbstractAnalysisModule {
-		public ProcessingTimeAnalysis() {
-		}
+		public ProcessingTimeAnalysis() {}
 		@Override
 		protected boolean executeAnalysis(IProgressMonitor monitor) throws TmfAnalysisException {
-			// TODO Auto-generated method stub
 			return true;
 		}
 		@Override
 		protected void canceling() {
-			// TODO Auto-generated method stub
 		}
 	}
     </pre>
@@ -79,7 +76,7 @@ content_class: smaller
 ---
 title: Analysis Module (2)
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Analysis is scheduled <code>IAnalysisModule#schedule()</code>
 - <code>IAnalysisModule#waitForCompletion()</code> will block thread until completion
@@ -110,17 +107,17 @@ content_class: smaller
 		applies_experiment (true | false) >
 		</pre>
 
-- id: The unique ID that identifies this analysis module.
-- name: The trace analysis module's name as it is displayed to the end user
-- analysis_module: The fully qualified name of a class that implements the IAnalysisModule interface.
-- icon: The icon associated to this analysis module.
-- automatic: Whether to execute this analysis automatically when trace is opened, or wait for the user to ask for it
-- applies_experiment: If it applies to traces or experiments.
+- _id_: The unique ID that identifies this analysis module.
+- _name_: The trace analysis module's name as it is displayed to the end user
+- _analysis_module_: The fully qualified name of a class that implements the IAnalysisModule interface.
+- _icon_: The icon associated to this analysis module.
+- _automatic_: Whether to execute this analysis automatically when trace is opened, or wait for the user to ask for it
+- _applies_experiment_: If it applies to traces or experiments.
 
 ---
-title: Plug-in Extension Point (2)
-subtitle: Plug-in Manifest Editor
-content_class: smaller
+title: Plug-in Manifest Editor
+subtitle: 
+content_class: bigger
 
 - Click on **Add...** Button
 - Find org.eclipse.linuxtools.tmf.core.analysis
@@ -132,7 +129,7 @@ content_class: smaller
 ---
 title: Project Explorer
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Shows all available analyses under trace or experiment
 - Note: Need to open trace to see available analyses
@@ -142,15 +139,14 @@ content_class: smaller
 ---
 title: Exercise: Create an analysis
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Add a new analysis module by adding an extension (plugin.xml)
 	- extension point: <code>org.eclipse.linuxtools.tmf.core.analysis</code>
 - New module (hint: right-mouse click on added extension)
-- Make sure that analysis has an **id**, **name** and **analysis_module**
-	- id: <code>org.eclipse.tracecompass.training.example.processing.module</code>
-	- name: <code>Processing Analysis</code>
+	- _id_: <code>org.eclipse.tracecompass.training.example.processing.module</code>
+	- _name_: <code>Processing Analysis</code>
 	- click on hyperlink **analysis_module** 
 		- Class name: <code>ProcessingTimeModule</code>
 		- Select **Browse...** button and find superclass <code>TmfAbstractAnalysisModule</code>
@@ -161,7 +157,7 @@ content_class: smaller
 ---
 title: Exercise: Review
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Defining an analysis extension
 - Implementing an analysis module class
@@ -172,7 +168,7 @@ content_class: smaller
 
 title: Apply to Trace Type
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Define the trace type the analysis applies (or not)
 
@@ -183,14 +179,16 @@ content_class: smaller
 		applies (true | false) >
 	</pre>
 
-- class: The base trace class this analysis applies to or not (it also applies to traces extending this class).
-- applies: Does this tracetype element mean the class applies or not (default true)
+- 
+- _class_: base trace class this analysis applies to or not 
+	- Note: it also applies to traces extending this class
+- _applies_: Does this tracetype element mean the class applies or not (default true)
 
 ---
 
 title: Apply to Trace Type (2) 
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Right-click on analysis module -> New -> tracetype
 - Fill-in the class
@@ -201,7 +199,7 @@ content_class: smaller
 
 title: Exercise: Apply to trace type
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Right-click on Processing Analysis -> New -> tracetype
@@ -215,7 +213,7 @@ content_class: smaller
 ---
 title: Exercise: Review
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Applying analysis to a trace type
 - Exploring the analysis in Project Explorer
@@ -226,7 +224,7 @@ content_class: smaller
 ---
 title: Analysis Requirements
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - 
 - Provide information to user if analysis can't run
@@ -248,7 +246,7 @@ content_class: smaller
 ---
 title: Analysis Requirements Example
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - 
 
@@ -273,7 +271,7 @@ content_class: smaller
 ---
 title: Exercise: Add Analysis Requirements
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Open class <code>ProcessingTimeAnalysis</code> 
@@ -289,7 +287,7 @@ content_class: smaller
 ---
 title: Exercise: Review
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Implementing analysis requirement for event names
 - Providing the analysis requirement from the analysis 
@@ -302,7 +300,7 @@ content_class: smaller
 
 title: Analysis Parameter Provider
 subtitle:
-content_class: smaller
+content_class: bigger
 
 - Analysis may have parameters
 - Default values can be set as part of analysis extension
@@ -314,7 +312,7 @@ content_class: smaller
 		class CDATA #REQUIRED>
 	</pre>
 
-- class: The class that contains this analysis parameter provider.
+- _class_: The class that contains this analysis parameter provider.
 	- Implement <code>IAnalysisParameterProvider</code>
 	- Extend <code>TmfAbstractAnalysisParameterProvider</code>
 - Use listener to register another view to be notified when selection changes
@@ -322,7 +320,7 @@ content_class: smaller
 ---
 title: Parameter Provider Example
 subtitle:
-content_class: smaller
+content_class: bigger
 
 - 
 	<pre class="prettyprint" data-lang="java">
@@ -349,7 +347,7 @@ content_class: smaller
 
 title: Dependent Analyses 
 subtitle:
-content_class: smaller
+content_class: bigger
 
 - An analysis can depend on other analyses
 - Dependent analysis need to execute beforehand
@@ -374,15 +372,14 @@ content_class: smaller
 
 title: Analysis Output
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Analysis can have one or more outputs
 - Typically it's an Eclipse view
 - All analysis outputs implement <code>ITmfAnalysisOutput</code>
-- For Eclipse views, use <code>org.eclipse.tracecompass.tmf.ui.analysis.TmfAnalysisViewOutput</code>
+- For Eclipse views, use class <code>TmfAnalysisViewOutput</code>
 - Shown in Project Explorer under the traces
-- Associates an output with an analysis module or a class of analysis modules
-- Add output to analysis in plugin.xml
+- Associates an output with an analysis module or a class of analysis modules in plugin.xml
 
 	<pre class="prettyprint" data-lang="DTD">
 	<!ELEMENT output (analysisId | analysisModuleClass)>
@@ -391,13 +388,14 @@ content_class: smaller
 	id    CDATA #IMPLIED>
 	</pre>
 
-- class: The class of this output.
-- id: An ID for this output. For example, for a view, it would be the view ID.
+- 
+- _class_: The class of this output.
+- _id_: An ID for this output. For example, for a view, it would be the view ID.
 
 ---
 title: Plug-in Extension Point
 subtitle: Plug-in Manifest Editor
-content_class: smaller
+content_class: bigger
 
 - Right-click on <code>org.eclipse.linuxtools.tmf.core.analysis</code> -> New -> output
 	- Fill in class of output and id of view
@@ -409,26 +407,25 @@ content_class: smaller
 ---
 title: Exercise: Create an output
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Reset to **TRACE_COMPASS_???**
 - Create a Eclipse view (see Plug-in Development course)
-	- id: <code>org.eclipse.tracecompass.training.example.processing.states</code>
-	- name: Processing States
-	- class: <code>ProcessingStatesView</code>
+	- _id_: <code>org.eclipse.tracecompass.training.example.processing.states</code>
+	- _name_: Processing States
+	- _class_: <code>ProcessingStatesView</code>
 - Add an output
-	- class: org.eclipse.tracecompass.tmf.ui.analysis.TmfAnalysisViewOutput
-	- id: <code>org.eclipse.tracecompass.training.example.processing.states</code>
+	- _class_: org.eclipse.tracecompass.tmf.ui.analysis.TmfAnalysisViewOutput
+	- _id_: <code>org.eclipse.tracecompass.training.example.processing.states</code>
 - Assign to analysis
-	class: <code>org.eclipse.tracecompass.training.example.ProcessingTimeAnalysis</code>
-- Run Trace Compass
-- Open trace and view (from Project Explorer)
+	_class_: <code>org.eclipse.tracecompass.training.example.ProcessingTimeAnalysis</code>
+- Run Trace Compass, open trace and view (from Project Explorer)
 - **Go!**	
 
 ---
 title: Exercise: Review
 subtitle: 
-content_class: smaller
+content_class: bigger
 
 - Implementing analysis output
 - Opening the output from the Project Explorer
@@ -438,7 +435,7 @@ content_class: smaller
 
 title: My other slide
 subtitle: Subtitle Placeholder
-content_class: smaller
+content_class: bigger
 
 - pressing 'f' toggle fullscreen
 - pressing 'w' toggles widescreen
