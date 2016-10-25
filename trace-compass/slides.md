@@ -57,7 +57,7 @@ subtitle:
 - Abstract implementation <code>TmfAbstractAnalysisModule</code>
 - 0..N analyses per trace or experiment
 
-	<pre class="prettyprint" data-lang="java">
+<pre class="prettyprint" data-lang="java">
 	public class ProcessingTimeAnalysis extends TmfAbstractAnalysisModule {
 		public ProcessingTimeAnalysis() {}
 		@Override
@@ -68,7 +68,7 @@ subtitle:
 		protected void canceling() {
 		}
 	}
-    </pre>
+</pre>
 
 ---
 title: Analysis Module (2)
@@ -384,6 +384,17 @@ subtitle: Plug-in Manifest Editor
 <center><img src="images/AnalysisOutputExtension.png" width="70%" height="70%"/></center>
 
 ---
+title: Project Explorer
+subtitle: 
+
+- Shows all available view under the analyses
+- Trace needs to open to see available analyses
+- Analysis requirements need to be fulfilled 
+
+<center><img src="images/ProjectExplorerWithOutput.png" width="30%" height="30%"/></center>
+
+
+---
 title: Exercise: Create an output
 subtitle: 
 
@@ -439,6 +450,8 @@ subtitle:
 
 - Attribute
 	- Smallest element of a state
+	- Has a State Value
+	- Changes over time
 - Attribute Tree: 
 	- Tree-like structure
 	- Each attribute can have a value and sub-attributes
@@ -446,9 +459,6 @@ subtitle:
 - Quark:
 	- Unique, constant identifier of an attribute
 	- Makes faster queries
-- State Value:
-	- Value of the attribute
-	- Changes over the time of the trace
 
 ---
 title: State System Definitions (2)
@@ -478,32 +488,86 @@ subtitle:
 	<pre>
 	  |- CPUs
 	  |  |- &lt;CPU number&gt; -&gt; CPU Status
-	  |  |  |- CURRENT_THREAD
-	  |  |  |- SOFT_IRQS
-	  |  |  |  |- &lt;Soft IRQ number&gt; -&gt; Soft IRQ Status
-	  |  |  |- IRQS
-	  |  |  |  |- &lt;IRQ number&gt; -&gt; IRQ Status
+	  |     |- CURRENT_THREAD
+	  |     |- SOFT_IRQS
+	  |     |  |- &lt;Soft IRQ number&gt; -&gt; Soft IRQ Status
+	  |     |- IRQS
+	  |        |- &lt;IRQ number&gt; -&gt; IRQ Status
 	  |- THREADS
-	  |  |- &lt;Thread number&gt; -&gt; Thread Status
-	  |  |  |- PPID
-	  |  |  |- EXEC_NAME
-	  |  |  |- PRIO
-	  |  |  |- SYSTEM_CALL
+	     |- &lt;Thread number&gt; -&gt; Thread Status
+	        |- PPID
+	        |- EXEC_NAME
+	        |- PRIO
+	        |- SYSTEM_CALL
 	  </pre>
-
 
 ---
 
-title: State System API
+title: State System APIs
 subtitle: 
 
+- **TODO fix order**
+
+- State value interface: <code>ITmfStateValue</code>
+- State interval interface: <code>ITmfStateInterval</code>
+- Read and write interface to the state system: <code>ITmfStateSystemBuilder</code>
+- Query interface: <code>ITmfStateSystem</code>
+- Analysis using a state system: <code>TmfStateSystemAnalysisModule</code>
 - All state provider implement <code>ITmfStateProvider</code>
 	- Extend abstract class <code>AbstractTmfStateProvider</code>
 - Create a state system and assign a backend: <code>StateSystemFactory</code>
-- Read and write interface to the state system: <code>ITmfStateSystemBuilder</code>
-- Query interface: <code>ITmfStateSystem</code>
-- State value interface: <code>ITmfStateValue</code>
-- State interval interface: <code>ITmfStateInterval</code>
+
+---
+title: State Value Interface
+subtitle: 
+
+- All state values implement interface <code>ITmfStateValue</code>
+
+	<pre class="prettyprint" data-lang="java">
+	public enum Type {NULL, INTEGER, LONG, DOUBLE, STRING, CUSTOM;}
+	</pre>
+
+- Create a state value using state value factory <code>TmfStateValue</code>, for example:
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateValue value = TmfStateValue.nullValue();
+	ITmfStateValue intValue = TmfStateValue.newValueInt();
+	ITmfStateValue longValue = TmfStateValue.newValueLong();
+	</pre>	
+
+- Read the value, for example: <code>IntegerStateValue</code>
+
+	<pre class="prettyprint" data-lang="java">
+	ITmfStateInterval interval = getInterval();
+	if (interval.getValue().getType() == Type.Integer) {
+		int retVal = interval.getValue().unboxInt();
+	}
+	</pre>
+
+---
+title: State Interval Interface
+subtitle: 
+
+- All state intervals implement interface <code>ITmfStateInterval</code>
+- Has a start and end time
+
+	<pre class="prettyprint" data-lang="java">
+	long getStartTime();
+	long getEndTime();
+	</pre>
+	
+- Provides the quark and state value
+
+	<pre class="prettyprint" data-lang="java">
+	int getAttribute();
+	ITmfStateValue getStateValue();
+	</pre>
+
+- Validates whether it intersects with a given timestamp
+
+	<pre class="prettyprint" data-lang="java">
+	boolean intersects(long timestamp);
+	</pre>
 
 ---
 
@@ -562,6 +626,161 @@ subtitle: ITmfStateSystemBuilder
 	</pre>
 
 ---
+title: State System Analysis Module
+subtitle: TmfStateSystemAnalysisModule
+
+- State system analysis modules typically extend <code>TmfStateSystemAnalysisModule</code>
+- By default, full history on disk (default can be overwritten)
+- State system file is: <code>&lt;analysis id&gt;.ht</code>
+- Takes care of reading the trace using an event request
+- Handles cancellation of analysis by user
+<pre class="prettyprint" data-lang="java">
+	protected @NonNull ITmfStateProvider createStateProvider() {
+		ITmfTrace trace = getTrace();
+		if (trace == null) {
+			throw new IllegalStateException();
+		}
+		return new ProcessingTimeStateProvider(trace);
+	}
+</pre>
+- Delete state systems: Right-click on trace->Delete Supplementary Files
+
+---
+title: State provider
+subtitle: 
+
+- All state provider implement interface <code>ITmfStateProvider</code>
+- Typically, extend <code>AbstractTmfStateProvider</code>
+	Uses a buffering scheme to not block event request
+- Implement <code>ITmfStateProvider</code>#getVersion() 
+	- To force recreation of state system change return value
+- Implement <code>ITmfStateProvider</code>#getInstance()
+- Implement <code>AbstractTmfStateProvider</code>#eventHandle()
+
+---
+title: State provider (2)
+subtitle:
+content_class: smaller 
+
+<pre class="prettyprint" data-lang="java" >
+	protected void eventHandle(@NonNull ITmfEvent event) {
+		final ITmfStateSystemBuilder stateSystem = getStateSystemBuilder();
+		switch (event.getName()) {
+		case IEventConstants.CREATE_EVENT:
+			// get event field with name
+			String requester = event.getContent().getFieldValue(String.class, "requester");
+
+			// get quark of attribute for path Requester/&lt;requester&gt;
+			int quark = stateSystem.getQuarkAbsoluteAndAdd("Requester", requester);
+
+			// Create new state value
+			ITmfStateValue stateValue = TmfStateValue.newValueInt
+				(IEventConstants.ProcessingStates.INITIALIZING.ordinal());
+
+			// get time of event
+			long t = event.getTimestamp().getValue();
+
+			// apply state change
+			stateSystem.modifyAttribute(t, stateValue, quark);
+			return;
+		}
+	}
+</pre>
+
+---
+title: Exercise: Implement a state provider
+subtitle: 
+
+- Reset to **TRACE_COMPASS_???**
+- Open <code>ProcessingTimeAnalysis</code>
+	- Implement createStateProvider()
+	- Return an instance of <code>ProcessingTimeStateProvider</code> (class already exists) 
+- Implement <code>ProcessingTimeStateProvider</code>
+	- See next slides for state machine and attribute tree  
+- Run Trace Compass and open trace
+- Open State System Explorer (Window -> Show View -> Tracing -> State System Explorer)
+	- Explore state system org.eclipse.tracecompass.training.example.ht 
+	- Navigate events table and follow state changes
+		- Hint: add search criteria (:CREATE|:START|:STOP|:END)
+- **Go!**
+
+---
+title: Exercise State Machine
+subtitle: 
+
+<center><img src="images/ExerciseStateMachine.png" width="50%" height="50%"/></center>
+
+- Note: When receiving **ust_master:end** set the state to the null state!
+
+---
+title: Exercise Attribute Tree
+subtitle:
+
+
+- Example path: Requester/&lt;requester&gt;
+	- Where &lt;requester&gt; is taken from event field of CTF event
+- State values:
+	- 0=INITIALIZING
+	- 1=PROCESSING
+	- 2=WAITING
+
+	<pre>
+	  |- Requester
+	        |- &lt;requester&gt; -&gt; State Value
+	  </pre>
+
+---
+
+title: Bonus exercise: 2nd State Machine
+subtitle: 
+
+- Reset to **TRACE_COMPASS_???**
+- Update <code>ProcessingTimeStateProvider</code> (see state machine on next slide)
+	- Hint: Use attribute tree layout shown in file 
+- Run Trace Compass and open trace
+- Open State System Explorer
+	- Explore state system org.eclipse.tracecompass.training.example.ht 
+	- Navigate events table and follow state changes
+- **Go!**
+
+---
+
+title: Example State Machine (2)
+subtitle: 
+
+<center><img src="images/ExerciseProcessingStateMachine.png" width="45%" height="45%"/></center>
+
+---
+title: Exercise Attribute Tree
+subtitle:
+
+
+- Example path: Requester/&lt;requester&gt;/&lt;id&gt;
+	- Where &lt;requester&gt; is taken from event field of CTF event
+- State values:
+	- 0=INITIALIZING
+	- 1=PROCESSING
+
+	<pre>
+	  |- Requester
+	        |- &lt;requester&gt; -&gt; State Value
+	              |-&lt;id&gt;   -&gt; State Value
+	  </pre>
+
+
+---
+
+
+title: Exercise: Review
+subtitle: 
+
+- Overview of Generic State System APIs (for building)
+- Creating a state system analysis module
+- Implementing a state system provider
+- Exploring of a state system using the State System Explorer
+- Deleting the supplementary files
+
+---
 title: Query a state system
 subtitle: ITmfStateSystem
 
@@ -571,8 +790,8 @@ subtitle: ITmfStateSystem
 - Getting a quark of an attribute from absolute path
 
 	<pre class="prettyprint" data-lang="java">
-    int getQuarkAbsolute(String... attribute)
-            throws AttributeNotFoundException;
+	int getQuarkAbsolute(String... attribute)
+		throws AttributeNotFoundException;
 	</pre>
 
 - Getting a quark from a relative path
@@ -644,59 +863,6 @@ subtitle: ITmfStateSystem
 		throws StateSystemDisposedException;
 	</pre>
 
----
-title: State Value Interface
-subtitle: 
-
-- All state values implement interface <code>ITmfStateValue</code>
-
-	<pre class="prettyprint" data-lang="java">
-	public enum Type {NULL, INTEGER, LONG, DOUBLE, STRING, CUSTOM;}
-	</pre>
-
-- Create a state value using state value factory <code>TmfStateValue</code>, for example:
-
-	<pre class="prettyprint" data-lang="java">
-	ITmfStateValue value = TmfStateValue.nullValue();
-	ITmfStateValue intValue = TmfStateValue.newValueInt();
-	ITmfStateValue longValue = TmfStateValue.newValueLong();
-	</pre>	
-
-- Read the value, for example: <code>IntegerStateValue</code>
-
-	<pre class="prettyprint" data-lang="java">
-	ITmfStateInterval interval = getInterval();
-	if (interval.getValue().getType() == Type.Integer) {
-		int retVal = interval.getValue().unboxInt();
-	}
-	</pre>
-
----
-title: State Interval Interface
-subtitle: 
-
-- All state intervals implement interface <code>ITmfStateInterval</code>
-- Has a start and end time
-
-	<pre class="prettyprint" data-lang="java">
-	long getStartTime();
-	long getEndTime();
-	</pre>
-	
-- Provides the quark and state value
-
-	<pre class="prettyprint" data-lang="java">
-	int getAttribute();
-	ITmfStateValue getStateValue();
-	</pre>
-
-- Validates whether it intersects with given timestamp
-
-	<pre class="prettyprint" data-lang="java">
-	boolean intersects(long timestamp);
-	</pre>
-
----
 title: My other slide
 subtitle: Subtitle Placeholder
 
