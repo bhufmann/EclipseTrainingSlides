@@ -631,11 +631,24 @@ subtitle: TmfStateSystemAnalysisModule
 
 - State system analysis modules typically extend <code>TmfStateSystemAnalysisModule</code>
 - By default, full history on disk (default can be overwritten)
-- State system file is: <code>&lt;analysis id&gt;.ht</code>
 - Takes care of reading the trace using an event request
 - Handles cancellation of analysis by user
+- State system are stored in hidden directory **.tracing** in workspace
+	- &lt;workspace&gt;/&lt;project&gt;/.tracing/&lt;trace&gt;/
+	- State system file is: <code>&lt;analysis id&gt;.ht</code>
+	- Delete state systems: Right-click on trace -> **Delete Supplementary Files...**
+
+---
+title: State System Analysis Module (2)
+subtitle: TmfStateSystemAnalysisModule
+
+- Access state system using utility method
+	<pre class="prettyprint" data-lang="java">
+	public static ITmfStateSystem getStateSystem(ITmfTrace trace, String moduleId);
+	}
+- Create state provider class 
 <pre class="prettyprint" data-lang="java">
-	protected @NonNull ITmfStateProvider createStateProvider() {
+	protected ITmfStateProvider createStateProvider() {
 		ITmfTrace trace = getTrace();
 		if (trace == null) {
 			throw new IllegalStateException();
@@ -643,7 +656,6 @@ subtitle: TmfStateSystemAnalysisModule
 		return new ProcessingTimeStateProvider(trace);
 	}
 </pre>
-- Delete state systems: Right-click on trace->Delete Supplementary Files
 
 ---
 title: State provider
@@ -651,7 +663,7 @@ subtitle:
 
 - All state provider implement interface <code>ITmfStateProvider</code>
 - Typically, extend <code>AbstractTmfStateProvider</code>
-	Uses a buffering scheme to not block event request
+	- Uses a buffering scheme to not block event request
 - Implement <code>ITmfStateProvider</code>#getVersion() 
 	- To force recreation of state system change return value
 - Implement <code>ITmfStateProvider</code>#getInstance()
@@ -716,6 +728,11 @@ subtitle:
 title: Exercise Attribute Tree
 subtitle:
 
+ 
+	<pre>
+	  |- Requester
+	        |- &lt;requester&gt; -&gt; State Value
+	  </pre>
 
 - Example path: Requester/&lt;requester&gt;
 	- Where &lt;requester&gt; is taken from event field of CTF event
@@ -723,11 +740,6 @@ subtitle:
 	- 0=INITIALIZING
 	- 1=PROCESSING
 	- 2=WAITING
-
-	<pre>
-	  |- Requester
-	        |- &lt;requester&gt; -&gt; State Value
-	  </pre>
 
 ---
 
@@ -754,6 +766,12 @@ subtitle:
 title: Exercise Attribute Tree
 subtitle:
 
+ 
+	<pre>
+	  |- Requester
+	        |- &lt;requester&gt; -&gt; State Value
+	              |-&lt;id&gt;   -&gt; State Value
+	  </pre>
 
 - Example path: Requester/&lt;requester&gt;/&lt;id&gt;
 	- Where &lt;requester&gt; is taken from event field of CTF event
@@ -761,16 +779,8 @@ subtitle:
 	- 0=INITIALIZING
 	- 1=PROCESSING
 
-	<pre>
-	  |- Requester
-	        |- &lt;requester&gt; -&gt; State Value
-	              |-&lt;id&gt;   -&gt; State Value
-	  </pre>
-
 
 ---
-
-
 title: Exercise: Review
 subtitle: 
 
@@ -806,7 +816,6 @@ title: Query a state system (2)
 subtitle: ITmfStateSystem
 
 - Getting a quark of an optional attribute from absolute path
-- returns <code>#INVALID_ATTRIBUTE</code> (-2) if it doesn't exist
 
 	<pre class="prettyprint" data-lang="java">
     int optQuarkAbsolute(String... attribute)
@@ -814,12 +823,12 @@ subtitle: ITmfStateSystem
 	</pre>
 
 - Getting a quark of an optional attribute from relative path
-- returns <code>#INVALID_ATTRIBUTE</code> (-2) if it doesn't exist
 
 	<pre class="prettyprint" data-lang="java">
 	int optQuarkRelative(int startingNodeQuark, String... subPath)
 		throws AttributeNotFoundException;
 	</pre>
+- Return <code>#INVALID_ATTRIBUTE</code> (-2) if it doesn't exist
 
 ---
 title: Query a state system (3)
@@ -863,6 +872,94 @@ subtitle: ITmfStateSystem
 		throws StateSystemDisposedException;
 	</pre>
 
+---
+title: Query a state system (5)
+subtitle: StateSystemUtils
+
+- Utility class to query history range
+- Get all the states for given quark between start and end time
+
+	<pre class="prettyprint" data-lang="java">
+	public static List<ITmfStateInterval> queryHistoryRange(ITmfStateSystem ss, int attributeQuark, 
+		long t1, long t2)
+			throws AttributeNotFoundException, StateSystemDisposedException
+	</pre>
+
+- Get all the states for given quark between start and end time with resolution
+
+	<pre class="prettyprint" data-lang="java">
+	public static List<ITmfStateInterval> queryHistoryRange(ITmfStateSystem ss, int attributeQuark, 
+		long t1, long t2, long resolution, IProgressMonitor monitor)
+			throws AttributeNotFoundException, StateSystemDisposedException
+	</pre>
+
+---
+title: Exercise: Query a state system
+subtitle: 
+
+- Reset to **TRACE_COMPASS_???**
+- Open view class ProcessingStatesView
+	- Implement TODOs to query sate system in method print states
+	- Use <code>ITmfStateSystem</code> interface and utility <code>StateSystemUtils</code> 
+	- Use method outputText() to print text on screen
+- **Go!**	
+
+---
+title: Exercise: Review
+subtitle: 
+
+- State values and state intervals
+- Getting attribute quarks
+- Performing  single queries
+- Performing full queries
+- Querying a history range
+
+---
+title: Module 5
+subtitle: Time Graph views
+
+- Time Graph View Overview
+- Time Graph Viewer and its Components
+- Time Graph Viewer Model
+- Time Graph view details
+- Filtering in Time Graph view
+- Searching in Time Graph view
+- Sorting in Time Graph view
+
+---
+title: Overview
+subtitle: Time Graph View
+
+- Visualizes states over time
+	- For example, processes, threads, cores, IRQs...
+- Provides common features
+	- Navigation with mouse, keyboard and toolbar buttons
+	- Zoom-in and out
+	- Highlighting of regions (e.g. Bookmarks)
+	- Time cursors
+	- Searching (rows!)
+- Uses common widget library on top of SWT
+
+---
+title: Overview
+subtitle: 
+
+- Time Graph view components
+
+<center><img src="images/TimeGraphView-explained.png" width="90%" height="90%"/></center>
+
+
+---
+title: Time Graph viewer
+subtitle:
+
+
+
+---
+title: My other slide
+subtitle: Subtitle Placeholder
+
+---
 title: My other slide
 subtitle: Subtitle Placeholder
 
