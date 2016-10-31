@@ -918,7 +918,6 @@ subtitle:
 title: Module 5
 subtitle: Time Graph views
 
-- Time Graph View Overview
 - Time Graph Viewer and its Components
 - Time Graph Viewer Model
 - Time Graph view details
@@ -928,40 +927,125 @@ subtitle: Time Graph views
 
 ---
 title: Overview
-subtitle: Time Graph View
+subtitle: 
 
 - Visualizes states over time
 	- For example, processes, threads, cores, IRQs...
+- Works well with state systems
+- Uses common widget library on top of SWT
+- Extensible for custom use cases
+
+
+---
+title: Time Graph view components
+subtitle: 
+
+- 
+
+<center><img src="images/TimeGraphView-explained.png" width="100%" height="100%"/></center>
+
+
+---
+title: Time Graph viewer Overview
+subtitle:
+
+- Visualizes states over time
+	- For example, processes, threads, cores, IRQs...
+- Common widget library on top of SWT
 - Provides common features
 	- Navigation with mouse, keyboard and toolbar buttons
 	- Zoom-in and out
-	- Highlighting of regions (e.g. Bookmarks)
+	- Highlight of regions as marker overlays (e.g. Bookmarks)
 	- Time cursors
 	- Searching (rows!)
-- Uses common widget library on top of SWT
-
----
-title: Overview
-subtitle: 
-
-- Time Graph view components
-
-<center><img src="images/TimeGraphView-explained.png" width="90%" height="90%"/></center>
-
+- Supports arrows between events
+- Tree structure that supports columns
 
 ---
 title: Time Graph viewer
-subtitle:
+subtitle: 
 
+- Create a Time Graph viewer instance <code>TimeGraphViewer</code>
+- Define content provider to provide Time Graph Model root entries
+- Define a presentation provider to define how to display states
+- Define a filter content provider for filter dialog
+
+	<pre class="prettyprint" data-lang="java">
+	TimeGraphViewer viewer = new TimeGraphViewer();
+	viewer.setContentProvider(new MyTimeGraphContentProvider());
+	viewer.setPresentationProvider(new MyPresentationProvider);
+	viewer.setFilterContentProvider();
+	viewer.setInput(getModel();
+	</pre>
 
 
 ---
-title: My other slide
-subtitle: Subtitle Placeholder
+title: Time Graph Model
+subtitle: 
+
+<center><img src="images/TimeGraphView-Model.png" width="50%" height="50%"/></center>
 
 ---
-title: My other slide
-subtitle: Subtitle Placeholder
+
+title: Time Graph Model (2)
+subtitle: ITimeGraphEntry
+
+- All time graph models implement interface <code>ITimeGraphEntry</code>
+- 	Typically models extend default implementation <code>TimeGraphEntry</code>
+- It's a tree structure: ITimeGraphEntry has 0..* <code>ITmfGraphEntry</code> children
+- Use content provider the root entries can be supplied for a model object
+
+	<pre class="prettyprint" data-lang="java">
+	ITimeGraphEntry getParent();
+	List&lt;ITimeGraphEntry&gt; getChildren();
+	String getName();
+	boolean hasTimeEvents();
+	Iterator&lt;? extends ITimeEvent&lt; getTimeEventsIterator();
+	</pre>
+	
+<center><img src="images/TimeGraphEntry.png" width="100%" height="100%"/></center>
+
+---
+title: Time Graph Model (3)
+subtitle: ITimeEvent
+
+- Each <code>ITimeGraphEntry</code> has 0..* more time events
+- Time events define the state intervals to be displayed
+- All time events implement interface <code>ITimeEvent</code>
+- Typically time events extend default implementation <code>TimeEvent</code>
+
+	<pre class="prettyprint" data-lang="java">
+	ITimeGraphEntry getEntry();
+	long getTime();
+	long getDuration();
+	</pre>
+
+
+---
+title: Presentation Provider
+subtitle: 
+
+- Provide the colors to be used for each time event
+- Define the tooltip to show when hovering over a time event
+- Provide possibility to draw overlays over an time graph entry, time event or control
+- Customize the entry height 
+- All presentation provider implement interface <code>ITimeGraphPresentationProvider</code>
+- Typically presentation provider extend <code>TimeGraphPresentationProvider</code>
+
+	<pre class="prettyprint" data-lang="java">
+	StateItem[] getStateTable();
+	int getStateTableIndex(ITimeEvent event);
+	void postDrawEvent(ITimeEvent event, Rectangle bounds, GC gc);
+	Map<String, String> getEventHoverToolTipInfo(ITimeEvent event);
+	// ...
+	</pre>
+
+
+---
+title: 
+subtitle: 
+
+
 
 - pressing 'f' toggle fullscreen
 - pressing 'w' toggles widescreen
