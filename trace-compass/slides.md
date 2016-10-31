@@ -990,6 +990,8 @@ subtitle:
 title: Time Graph Model (2)
 subtitle: ITimeGraphEntry
 
+<center><img src="images/TimeGraphEntries.png" width="70%" height="70%"/></center>
+
 - All time graph models implement interface <code>ITimeGraphEntry</code>
 - 	Typically models extend default implementation <code>TimeGraphEntry</code>
 - It's a tree structure: ITimeGraphEntry has 0..* <code>ITmfGraphEntry</code> children
@@ -1002,12 +1004,13 @@ subtitle: ITimeGraphEntry
 	boolean hasTimeEvents();
 	Iterator&lt;? extends ITimeEvent&lt; getTimeEventsIterator();
 	</pre>
-	
-<center><img src="images/TimeGraphEntry.png" width="100%" height="100%"/></center>
+
 
 ---
 title: Time Graph Model (3)
 subtitle: ITimeEvent
+
+<center><img src="images/TimeEvents.png" width="50%" height="50%"/></center>
 
 - Each <code>ITimeGraphEntry</code> has 0..* more time events
 - Time events define the state intervals to be displayed
@@ -1040,12 +1043,117 @@ subtitle:
 	// ...
 	</pre>
 
-
 ---
-title: 
+title: TODO marker axis
 subtitle: 
 
 
+---
+title: Exercise: Create a Time Graph Viewer
+subtitle: 
+
+- Reset to **TRACE_COMPASS_???**
+- Open view class ProcessingStatesView
+- In createPartControl()
+	- create new instance of TimeGraphViewer
+	- set presentation provider (<code>ProcessingStatesPresentationProvider</code>)
+- Implement time graph model in method fillTimeGraph() see TODOs
+- Run Trace Compass and explore the Time Graph Viewer features
+- Question: What limitations do you foresee with this implementation?
+- **Go!**
+
+---
+title: Exercise: Review
+subtitle: 
+
+- Creating a Time Graph Viewer
+- Setting a presentation provider
+- Creating a time graph model from a state system
+- Exploring of the Time Graph Viewer navigation
+
+---
+title: Time Graph View
+subtitle: 
+
+- Eclipse view wrapping Time Graph Viewer 
+- Common abstract class with re-occurring and re-usable code
+	- Listens to TMF signals (e.g. trace opened, time range selected)
+	- Loads the view content
+	- Provides default set of buttons
+	- Common synchronized time axis
+- Provides support for lazy loading of viewer
+- Provides marker list
+- Provides list of linked time events
+- Interfaces state systems
+
+---
+title: Time Graph View (2)
+subtitle: 
+
+- Typically views extend
+	- <code>AbstractTimeGraphView</code>
+	- <code>AbstractStateSystemTimeGraphView</code>
+- Use <code>AbstractTimeGraphView</code> to populate each row at a time
+	- Small number of rows
+	- Works with or without state systems
+- Use <code>AbstractStateSystemTimeGraphView</code> to populate per pixel column (all entries)
+	- High number of rows
+	- Uses full state system queries
+	- Works only with state systems
+
+---
+title: Time Graph View (3)
+subtitle: 
+
+<center><img src="images/AbstractTimeGraphView.png" width="80%" height="80%"/></center>
+
+---
+title: Time Graph View Concepts
+subtitle: AbstractTimeGraphView
+
+- Build thread
+	- Builds a list of time graph entries (rows)
+	
+	<pre class="prettyprint" data-lang="java">
+	protected abstract void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace, IProgressMonitor monitor);
+	</pre>
+	
+- Zoom thread
+	- Builds time event list per zoom level and display resolution
+
+	<pre class="prettyprint" data-lang="java">
+	protected abstract List&lt;ITimeEvent&gt; getEventList(TimeGraphEntry entry,	long startTime, long endTime, long resolution, IProgressMonitor monitor);
+	</pre>
+
+---
+title: Time Graph View Concepts
+subtitle: AbstractStateSystemTimeGraphView
+
+- Build thread
+
+	<pre class="prettyprint" data-lang="java">
+	protected abstract void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace, IProgressMonitor monitor);
+	</pre>
+
+- Call queryStateSystem in buildEntryList() and provide call back <code>IQueryHandler</code>
+
+	<pre class="prettyprint" data-lang="java">
+	protected void queryFullStates(ITmfStateSystem ss, long start, long end, 
+		long resolution, IProgressMonitor monitor, IQueryHandler handler)
+	</pre>
+
+- Zoom thread
+
+	<pre class="prettyprint" data-lang="java">
+	protected abstract List<ITimeEvent> getEventList(TimeGraphEntry tgentry, ITmfStateSystem ss, 
+		List&lt;List&lt;ITmfStateInterval&gt;&gt; fullStates, List&lt;ITmfStateInterval&gt; prevFullState, 
+		IProgressMonitor monitor);
+	</pre>
+
+
+---
+title: Exercise: Create a Time Graph Viewer
+subtitle: 
 
 - pressing 'f' toggle fullscreen
 - pressing 'w' toggles widescreen
