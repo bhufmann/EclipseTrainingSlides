@@ -45,8 +45,6 @@ subtitle:
 - Manages dependencies between multiple analyses
 - Manages requirements to execute analyses
 
-TODO: picture
-
 ---
 title: Analysis Module
 subtitle:
@@ -130,34 +128,6 @@ subtitle:
 
 <center><img src="images/ProjectExplorerWithAnalysis.png" width="40%" height="40%"/></center>
 
----
-title: Exercise: Create an analysis
-subtitle: 
-
-- Reset to **TRACE_COMPASS_???**
-- Add a new analysis module by adding an extension (plugin.xml)
-	- extension point: <code>org.eclipse.linuxtools.tmf.core.analysis</code>
-- New module (hint: right-mouse click on added extension)
-	- _id_: <code>org.eclipse.tracecompass.training.example.processing.module</code>
-	- _name_: <code>Processing Analysis</code>
-	- click on hyperlink **analysis_module** 
-		- Class name: <code>ProcessingTimeModule</code>
-		- Select **Browse...** button and find superclass <code>TmfAbstractAnalysisModule</code>
-		- Remove <code>IAnalysisModule</code> interface from Interfaces list
-- Output something on console (in <code>executeAnalysis()</code>)
-- **Go!**	
-
----
-title: Exercise: Review
-subtitle: 
-
-- Defining an analysis extension
-- Implementing an analysis module class
-- Running the analysis
-- Exploring the integration in the Project Explorer
-
----
-
 title: Apply to Trace Type
 subtitle: 
 
@@ -186,30 +156,39 @@ subtitle:
 <center><img src="images/ExtensionAnalysisModule-TraceType.png" width="80%" height="80%"/></center>
 
 ---
-
-title: Exercise: Apply to trace type
+title: Exercise: Create an analysis module
 subtitle: 
+content_class: smaller
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS3.1_START**
+- Add a new analysis module by adding an extension (plugin.xml)
+	- extension point: <code>org.eclipse.linuxtools.tmf.core.analysis</code>
+- New module (hint: right-mouse click on added extension)
+	- _id_: <code>org.eclipse.tracecompass.training.example.processing.module</code>
+	- _name_: <code>Processing Analysis</code>
+	- click on hyperlink **analysis_module** 
+		- Class name: <code>ProcessingTimeModule</code>
+		- Select **Browse...** button and find superclass <code>TmfAbstractAnalysisModule</code>
+		- Remove <code>IAnalysisModule</code> interface from Interfaces list
 - Right-click on Processing Analysis -> New -> tracetype
 - Click on **Browse...** and find class <code>LttngUstTrace</code>
-- Run Trace Compass and
-	- Open trace training_ust_001
-	- Open trace TODO
-- Compare the list of analyses of both traces
+- Output something on console (in <code>executeAnalysis()</code>)
+- Run Trace Compass and Open trace training_ust_001
+
 - **Go!**	
 
 ---
 title: Exercise: Review
 subtitle: 
 
+- Defining an analysis extension
 - Applying analysis to a trace type
-- Exploring the analysis in Project Explorer
-	- Analysis shown for corresponding trace type
-	- Analysis not shown for other trace type 
+- Implementing an analysis module class
+- Running the analysis
 - Exploring the integration in the Project Explorer
 
 ---
+
 title: Analysis Requirements
 subtitle: 
 
@@ -258,7 +237,7 @@ subtitle:
 title: Exercise: Add Analysis Requirements
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS3.2_START**
 - Open class <code>ProcessingTimeAnalysis</code> 
 - Override method <code>getAnalysisRequirements()</code>
 - Create an <code>TmfAnalysisEventRequirement</code> for event names
@@ -398,7 +377,7 @@ subtitle:
 title: Exercise: Create an output
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS3.3_START**
 - Create a Eclipse view (see Plug-in Development course)
 	- _id_: <code>org.eclipse.tracecompass.training.example.processing.states</code>
 	- _name_: Processing States
@@ -503,10 +482,8 @@ subtitle:
 
 ---
 
-title: State System APIs
+title: State System API
 subtitle: 
-
-- **TODO fix order**
 
 - State value interface: <code>ITmfStateValue</code>
 - State interval interface: <code>ITmfStateInterval</code>
@@ -703,7 +680,7 @@ content_class: smaller
 title: Exercise: Implement a state provider
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS4.1_START**
 - Open <code>ProcessingTimeAnalysis</code>
 	- Implement createStateProvider()
 	- Return an instance of <code>ProcessingTimeStateProvider</code> (class already exists) 
@@ -746,7 +723,7 @@ subtitle:
 title: Bonus exercise: 2nd State Machine
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS4.2_START**
 - Update <code>ProcessingTimeStateProvider</code> (see state machine on next slide)
 	- Hint: Use attribute tree layout shown in file 
 - Run Trace Compass and open trace
@@ -846,7 +823,7 @@ subtitle: ITmfStateSystem
     List<Integer> getQuarks(int startingNodeQuark, String... pattern);
 	</pre>
 
-- Wait until a state system is build (with or without timeout)
+- Waiting until a state system is build (with or without timeout)
 
 	<pre class="prettyprint" data-lang="java">
 	void waitUntilBuilt();
@@ -857,7 +834,7 @@ subtitle: ITmfStateSystem
 title: Query a state system (4)
 subtitle: ITmfStateSystem
 
-- Query a single state at a given timestamp
+- Querying a single state at a given timestamp
 
 	<pre class="prettyprint" data-lang="java">
 	ITmfStateInterval querySingleState(long t, int attributeQuark)
@@ -865,7 +842,7 @@ subtitle: ITmfStateSystem
 	</pre>
 
 
-- Query full state at a given timestamp
+- Querying full state at a given timestamp
 
 	<pre class="prettyprint" data-lang="java">
 	List&lt;ITmfStateInterval&gt; queryFullState(long t)
@@ -877,7 +854,7 @@ title: Query a state system (5)
 subtitle: StateSystemUtils
 
 - Utility class to query history range
-- Get all the states for given quark between start and end time
+- Getting all the states for given quark between start and end time
 
 	<pre class="prettyprint" data-lang="java">
 	public static List<ITmfStateInterval> queryHistoryRange(ITmfStateSystem ss, int attributeQuark, 
@@ -885,7 +862,7 @@ subtitle: StateSystemUtils
 			throws AttributeNotFoundException, StateSystemDisposedException
 	</pre>
 
-- Get all the states for given quark between start and end time with resolution
+- Getting all the states for given quark between start and end time with resolution
 
 	<pre class="prettyprint" data-lang="java">
 	public static List<ITmfStateInterval> queryHistoryRange(ITmfStateSystem ss, int attributeQuark, 
@@ -897,7 +874,7 @@ subtitle: StateSystemUtils
 title: Exercise: Query a state system
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS4.4_START**
 - Open view class ProcessingStatesView
 	- Implement TODOs to query sate system in method print states
 	- Use <code>ITmfStateSystem</code> interface and utility <code>StateSystemUtils</code> 
@@ -916,68 +893,56 @@ subtitle:
 
 ---
 title: Module 5
-subtitle: Time Graph views
+subtitle: Time Graph Views
 
-- Time Graph Viewer and its Components
+- Time Graph Viewer Overview
 - Time Graph Viewer Model
-- Time Graph view details
-- Filtering in Time Graph view
-- Searching in Time Graph view
-- Sorting in Time Graph view
+- Time Graph Viewer API
+- Time Graph View Overview
+- Time Graph View API
+- Searching and Filtering in Time Graph View
 
 ---
-title: Overview
+title: Time Graph View Overview
 subtitle: 
 
-- Visualizes states over time
-	- For example, processes, threads, cores, IRQs...
-- Works well with state systems
-- Uses common widget library on top of SWT
-- Extensible for custom use cases
-
+<center><img src="images/TimeGraphView-explained.png" width="85%" height="85%"/></center>
 
 ---
-title: Time Graph view components
-subtitle: 
-
-- 
-
-<center><img src="images/TimeGraphView-explained.png" width="100%" height="100%"/></center>
-
-
----
-title: Time Graph viewer Overview
+title: Time Graph Viewer Overview
 subtitle:
 
 - Visualizes states over time
 	- For example, processes, threads, cores, IRQs...
 - Common widget library on top of SWT
 - Provides common features
+	- Common Time Axis (TimeGraphScale)
+	- Marker Axis (Marker Axis)	
 	- Navigation with mouse, keyboard and toolbar buttons
 	- Zoom-in and out
-	- Highlight of regions as marker overlays (e.g. Bookmarks)
-	- Time cursors
 	- Searching (rows!)
-- Supports arrows between events
+	- Highlight of regions interests (makers or time selection)
+- Supports drawing of arrows 
 - Tree structure that supports columns
 
 ---
-title: Time Graph viewer
+title: How to create a Time Graph viewer?
 subtitle: 
 
 - Create a Time Graph viewer instance <code>TimeGraphViewer</code>
 - Define content provider to provide Time Graph Model root entries
 - Define a presentation provider to define how to display states
-- Define a filter content provider for filter dialog
+- Define a filter content/label provider and columns for filter dialog
+- Provide a Time Graph Model
 
 	<pre class="prettyprint" data-lang="java">
 	TimeGraphViewer viewer = new TimeGraphViewer();
 	viewer.setContentProvider(new MyTimeGraphContentProvider());
 	viewer.setPresentationProvider(new MyPresentationProvider);
-	viewer.setFilterContentProvider();
+	viewer.setFilterLabelProvider(new MyFilterLabelProvider());
+	viewer.setFilterColumns(fFilterColumns);
 	viewer.setInput(getModel();
 	</pre>
-
 
 ---
 title: Time Graph Model
@@ -994,7 +959,7 @@ subtitle: ITimeGraphEntry
 
 - All time graph models implement interface <code>ITimeGraphEntry</code>
 - 	Typically models extend default implementation <code>TimeGraphEntry</code>
-- It's a tree structure: ITimeGraphEntry has 0..* <code>ITmfGraphEntry</code> children
+- It's a tree structure: ITimeGraphEntry has 0..* <code>ITimeGraphEntry</code> children
 - Use content provider the root entries can be supplied for a model object
 
 	<pre class="prettyprint" data-lang="java">
@@ -1028,25 +993,20 @@ subtitle: ITimeEvent
 title: Presentation Provider
 subtitle: 
 
-- Provide the colors to be used for each time event
-- Define the tooltip to show when hovering over a time event
-- Provide possibility to draw overlays over an time graph entry, time event or control
-- Customize the entry height 
-- All presentation provider implement interface <code>ITimeGraphPresentationProvider</code>
-- Typically presentation provider extend <code>TimeGraphPresentationProvider</code>
+- Provides the colors to be used for each time event
+- Defines the tooltip to show when hovering over a time event
+- Provides possibility to draw overlays over an time graph entry, time event or control
+- Can customizes the entry height
+- All presentation providers implement interface <code>ITimeGraphPresentationProvider</code>
+- Typically presentation provider extends <code>TimeGraphPresentationProvider</code>
 
 	<pre class="prettyprint" data-lang="java">
 	StateItem[] getStateTable();
 	int getStateTableIndex(ITimeEvent event);
 	void postDrawEvent(ITimeEvent event, Rectangle bounds, GC gc);
-	Map<String, String> getEventHoverToolTipInfo(ITimeEvent event);
+	Map&lt;String, String&gt; getEventHoverToolTipInfo(ITimeEvent event);
 	// ...
 	</pre>
-
----
-title: TODO marker axis
-subtitle: 
-
 
 ---
 title: Exercise: Create a Time Graph Viewer
@@ -1057,7 +1017,7 @@ subtitle:
 - In createPartControl()
 	- create new instance of TimeGraphViewer
 	- set presentation provider (<code>ProcessingStatesPresentationProvider</code>)
-- Implement time graph model in method fillTimeGraph() see TODOs
+- Implement time graph model in method fillTimeGraph() (see TODOs)
 - Run Trace Compass and explore the Time Graph Viewer features
 - Question: What limitations do you foresee with this implementation?
 - **Go!**
@@ -1072,77 +1032,203 @@ subtitle:
 - Exploring of the Time Graph Viewer navigation
 
 ---
-title: Time Graph View
+title: Time Graph View Overview
 subtitle: 
 
 - Eclipse view wrapping Time Graph Viewer 
 - Common abstract class with re-occurring and re-usable code
-	- Listens to TMF signals (e.g. trace opened, time range selected)
+	- Handles and sends signals (e.g. trace opened, time range selected)
 	- Loads the view content
 	- Provides default set of buttons
 	- Common synchronized time axis
 - Provides support for lazy loading of viewer
-- Provides marker list
-- Provides list of linked time events
-- Interfaces state systems
+- Provides hooks to add overlay markers
+- Support for link events (arrows)
+- Can interface with state systems
 
 ---
-title: Time Graph View (2)
+title: Time Graph View Overview (2)
 subtitle: 
 
-- Typically views extend
+- Typically views extend abstract classes
 	- <code>AbstractTimeGraphView</code>
 	- <code>AbstractStateSystemTimeGraphView</code>
 - Use <code>AbstractTimeGraphView</code> to populate each row at a time
 	- Small number of rows
 	- Works with or without state systems
-- Use <code>AbstractStateSystemTimeGraphView</code> to populate per pixel column (all entries)
+- Use <code>AbstractStateSystemTimeGraphView</code> to populate all entries by time
 	- High number of rows
-	- Uses full state system queries
+	- Uses full state system queries (more efficient query)
 	- Works only with state systems
 
 ---
-title: Time Graph View (3)
+title: Class Hierarchy
 subtitle: 
 
 <center><img src="images/AbstractTimeGraphView.png" width="80%" height="80%"/></center>
 
 ---
-title: Time Graph View Concepts
-subtitle: AbstractTimeGraphView
+title: Create a Time Graph View
+subtitle:
 
-- Build thread
-	- Builds a list of time graph entries (rows)
-	
-	<pre class="prettyprint" data-lang="java">
-	protected abstract void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace, IProgressMonitor monitor);
-	</pre>
-	
-- Zoom thread
-	- Builds time event list per zoom level and display resolution
+- 
 
 	<pre class="prettyprint" data-lang="java">
-	protected abstract List&lt;ITimeEvent&gt; getEventList(TimeGraphEntry entry,	long startTime, long endTime, long resolution, IProgressMonitor monitor);
+	public class ProcessingStatesView extends AbstractTimeGraphView {
+	public ProcessingStatesView() {
+		super("my.view.id", new ProcessingStatesPresentationProvider());
+		// Enable entry filtering
+		setFilterColumns(FILTER_COLUMNS);
+		setFilterLabelProvider(new FilterLabelProvider());
+	}
+	@Override
+	protected void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace, IProgressMonitor monitor) {
+		// TODO
+	}
+	@Override
+	protected List&lt;ITimeEvent&gt; getEventList(TimeGraphEntry entry, long startTime, long endTime,
+		long resolution, IProgressMonitor monitor) {
+		// TODO
+	}
 	</pre>
 
 ---
-title: Time Graph View Concepts
-subtitle: AbstractStateSystemTimeGraphView
+title: Time Graph View API
+subtitle: AbstractTimeGraphView
 
 - Build thread
+	- Building the list of time graph entries (rows)
+	- Building the list of time events for each time graph entry for whole trace range
+		- To display coarse events before lazy loading of zoom window is complete
+	- Called from base class for each trace in experiment (parentTrace)
+	- Adding root entries to view using <code>AbstractTimeGraphView#addToEntryList()</code>
 
 	<pre class="prettyprint" data-lang="java">
-	protected abstract void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace, IProgressMonitor monitor);
+	protected abstract void buildEntryList(ITmfTrace trace, ITmfTrace parentTrace,
+		IProgressMonitor monitor);
 	</pre>
 
-- Call queryStateSystem in buildEntryList() and provide call back <code>IQueryHandler</code>
+---
+title: Time Graph View API (2)
+subtitle: AbstractTimeGraphView
+
+- Zoom thread
+	- Building the time event list for each time graph entry
+	- Per zoom level and display resolution
+
+	<pre class="prettyprint" data-lang="java">
+	protected abstract List&lt;ITimeEvent&gt; getEventList(TimeGraphEntry entry, long startTime,
+		long endTime, long resolution, IProgressMonitor monitor);
+	</pre>
+
+---
+title: Arrows in Time Graph View
+subtitle: AbstractTimeGraphView
+
+- Creates arrows between time graph entries for a given start and end time
+- Computed for the current zoom window
+- Providing a list of linked events implementing interface <code>ILinkEvent</code>
+
+	<pre class="prettyprint" data-lang="java">
+	protected List&lt;ILinkEvent&gt; getLinkList(long startTime, long endTime,
+		long resolution, IProgressMonitor monitor);
+	</pre>
+
+- List will be propagated to TimeGraphViewer object
+
+---
+title: Markers in Time Graph View
+subtitle: AbstractTimeGraphView
+
+- Markers are overlays in the viewer
+- Bookmarks set by user in Time Graph View or externally
+- Common trace markers defined per trace type
+- View specific markers defined with API below:
+	- Providing a list of marker categories
+
+	<pre class="prettyprint" data-lang="java">
+	protected List&lt;String&gt; getViewMarkerCategories();
+	</pre>
+	
+	- Providing a list of markers
+
+	<pre class="prettyprint" data-lang="java">
+	protected List&lt;IMarkerEvent&gt; getViewMarkerList(long startTime, long endTime,
+		long resolution, IProgressMonitor monitor);
+	</pre>
+
+---
+title: Searching and Filtering
+subtitle: 
+
+- Possibility to provide filter for Time Graph Entries (rows)
+- Filter dialog uses a regular tree viewer 
+	- Providing columns names and Label provider (extends TreeLabelProvider)
+	- Optional, providing a content provider if needed 
+
+	<pre class="prettyprint" data-lang="java">
+	String[] filterColumns = { "Entry" };
+	setFilterColumns(filterColumns);
+	setFilterLabelProvider(new FilterLabelProvider());
+	</pre>
+
+- Searching for entries is built-in
+	- Use key shortcut **CTRL+F**
+
+---
+title: Exercise: Create a Time Graph View
+subtitle: 
+
+- Reset to **TRACE_COMPASS_???**
+- Open view class ProcessingStatesView
+- Make view extend AbstractTimeGraphView
+	- Implement constructor (see TODOs)
+		- Call super constructor with view ID and presentation provider
+		- set filter column names and label provider
+	- Implement buildEntryList() (see TODOs)
+	- Implement getEventList() (see TODOs)
+- Run Trace Compass and explore the Time Graph View features
+- Question: What are the differences to the previous exercise?
+- **Go!**
+
+---
+title: Exercise: Review
+subtitle: 
+
+- Extending an AbstractTimeGraphView
+- Implementing buildEntryList() -&gt; used in build thread
+- Implementing getEventList() -&gt; used in zoom thread
+- Exploring of the Time Graph View
+
+---
+title: Time Graph View API
+subtitle: AbstractStateSystemTimeGraphView
+
+- Populate time graph entries (rows) by time
+- Build thread
+	- Call queryStateSystem() in buildEntryList()
 
 	<pre class="prettyprint" data-lang="java">
 	protected void queryFullStates(ITmfStateSystem ss, long start, long end, 
 		long resolution, IProgressMonitor monitor, IQueryHandler handler)
 	</pre>
 
+- Provide call back <code>IQueryHandler</code>
+
+	<pre class="prettyprint" data-lang="java">
+	public interface IQueryHandler {
+		void handle(List&lt;List&lt;ITmfStateInterval&gt;&gt; fullStates,
+			@Nullable List&lt;ITmfStateInterval&gt; prevFullState);
+	}
+	</pre>
+
+---
+title: Time Graph View API (2)
+subtitle: AbstractStateSystemTimeGraphView
+
 - Zoom thread
+	- Builds time event list for each time graph entry
+	- Per zoom level and display resolution
 
 	<pre class="prettyprint" data-lang="java">
 	protected abstract List<ITimeEvent> getEventList(TimeGraphEntry tgentry, ITmfStateSystem ss, 
@@ -1150,10 +1236,29 @@ subtitle: AbstractStateSystemTimeGraphView
 		IProgressMonitor monitor);
 	</pre>
 
+---
+title: Time Graph View API (3)
+subtitle: AbstractStateSystemTimeGraphView
+
+- Providing a list of linked events implementing interface <code>ILinkEvent</code>
+
+	<pre class="prettyprint" data-lang="java">
+	protected List&lt;ILinkEvent&gt; getLinkList(ITmfStateSystem ss, 
+		List&lt;List&lt;ITmfStateInterval&gt;&gt; fullStates, List&lt;ITmfStateInterval&gt; prevFullState, IProgressMonitor monitor);	
+	</pre>
+
+
+- Providing a list of markers
+
+	<pre class="prettyprint" data-lang="java">
+	protected List&lt;IMarkerEvent&gt; getViewMarkerList(ITmfStateSystem ss,
+		List&lt;List&gt;ITmfStateInterval&gt;&gt; fullStates, List&lt;ITmfStateInterval&gt; prevFullState,
+		IProgressMonitor monitor);
+	</pre>
 
 ---
-title: Exercise: Create a Time Graph Viewer
-subtitle: 
+title: Title
+subtitle: Subtitle
 
 - pressing 'f' toggle fullscreen
 - pressing 'w' toggles widescreen
