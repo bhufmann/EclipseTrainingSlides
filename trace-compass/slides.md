@@ -1012,7 +1012,7 @@ subtitle:
 title: Exercise: Create a Time Graph Viewer
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS5.1_START**
 - Open view class ProcessingStatesView
 - In createPartControl()
 	- create new instance of TimeGraphViewer
@@ -1179,7 +1179,7 @@ subtitle:
 title: Exercise: Create a Time Graph View
 subtitle: 
 
-- Reset to **TRACE_COMPASS_???**
+- Reset to **TRACECOMPASS5.2_START**
 - Open view class ProcessingStatesView
 - Make view extend AbstractTimeGraphView
 	- Implement constructor (see TODOs)
