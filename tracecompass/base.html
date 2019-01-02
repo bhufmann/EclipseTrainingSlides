@@ -28,22 +28,19 @@ URL: https://code.google.com/p/io-2012-slides
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       extensions: ["tex2jax.js"],
-      jax: ["input/TeX", "output/HTML-CSS"],
+      jax: ["input/TeX", "output/SVG"],
       showProcessingMessages: false,
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
         processEscapes: true
       },
-      "HTML-CSS": {
-        availableFonts: ["TeX"],
-        preferredFont: "TeX"
+      SVG: {
+        font: "TeX"
       }
     });
   </script>
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-  <!-- MathJax: Fall back to local if CDN offline -->
-  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script type="text/javascript" src="js/lib/MathJax/MathJax.js?config=TeX-AMS_HTML"><\/script>')</script>
+  <script type="text/javascript" src="js/lib/MathJax.min.js"></script>
 </head>
 
 <body style="opacity: 0">
@@ -192,7 +189,7 @@ slide.image %}style="background-image: url({{- slide.image -}}) !important;backg
   {% endif %}
   {% if settings.lync %}
     <span><img style="height:20px;padding-bottom:2px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAAAwCAMAAABjawedAAAAk1BMVEUAAABDPT9CPD1DPT9CPD5DPT9DPT9DPT9CPD5CPD5DPT9CPD5DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9DPT9CPD5DPT9CPD5DPT9DPT9CPD5DPT9CPD5CPT5CPD5CPD5CPD5DPT9DPT9CPD5DPT9DPT9DPT9DPD9DPD9CPD5DPT9DPT9DPT9DPT8nxFTtAAAAMHRSTlMA8gboM346eCoK+xKNnszAxPdcte7SroQOphff2QzkSEExHhu5bifJmopMUyJ0ZZQXzPNkAAADMUlEQVRIx6XWWbaiMBQF0EuCgOFJ34ggimKvzzP/0ZW4QCgBhar9S0hzcxKg76byLUg8gRbhJYGqLGkE3XG5QD/uOjoNNL1YAhDcCKJZSxQcePHUPDMaYnOUAB45mt7ZnumaE3FACodMT7YA7yh/HJlljxFFtKBvFB84rL6ugp19IPo2u8wHgisNoJmwV/TRIgceCxhkH7ifh2UhkG8H7/2y3cFin8mlzOGI5TJymdxrz6qXZY1q83Xo+qknVWyIXdnuKPXjTvn+mvv7V1+OKeHNYVE+s/DBpOxhZUOtti+wATtx7+GkZAC7V1Im/XZVaXWrGn6VAPy42tbRWuaI9zTKBNL5ueQYwlXYX1ueImA0ytrGqXjTgPipo1xXYZxNArPYMuD+HhcH4lIve6/12rBXKxPxY4YezFZKb5DWrxjeeb+kHjSCRGwG6ULvVHgy0bCEVGYAaTHy+cfeaH366aVuG70J+hXYUcsO9prGYcVKZ8UsWi4CDg1W74IBX6cWRUI4NiExcuJwO2K69ZFPqaQr/TTWiGhINqLuIvCsurtmQ+4QOkFaEXCkDo7AZFRCtn5x6gVmRJ1LTa5VEW9qr9/qrv8VxVn0eo63CpzYiD0wEGtEPgy957G3Gh62E54hKMvd5kjwNWrra2xsiKqz0Da9A+bA7s4pvPPzXkxgzrs/qAFwUIYs00lh3+jpDtvpqawLpDudvliEHuywzLrCcdhQp+1MQJjO4vP/nSXgqdPGdhyX1Gm+SwHbOJ21xXz6F1Y2UA0b8C+snoEFcVpSt+zIAQjuH6y/BCv2LL8NpKcrNSgJxGzTV2I5tCS0efd9cZFKOGT1xF7fU6P393XpxIB9MJssD0h+5zTPXwewppiAMG7P5bK53rBRdrkE8Js+bZqfLQHbVbrjug2LchcB1I5Ggx9LwOO1NWvlQk0BHso+zI5FyQk8hfRdjDcijS6d8ZYDGzCMYhItMkewXOcC8N1aEIXOnvUW1Edh1m4QQqgnr5j8hjXQR9cfD0CaddyOdlG6QGE0AluZAph03NwP/mPTR9JvcevzxgIA3s+V/kF2WbwXIIbIyxj8Pz33Jjr9tz+vmYBk7xiwGAAAAABJRU5ErkJggg=="></span>
-    <a href="im:sip:{{- settings.lync -}}">Lync IM</a>
+    <a href="sip:{{- settings.lync -}}">Skype</a>
     <br>
   {% endif %}
     {{- settings.contact -}}
