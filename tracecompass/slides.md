@@ -314,7 +314,7 @@ public void traceClosed(TmfTraceClosedSignal signal) {
 }
 ~~~
 ---
-title: Steps to prepare
+title: Steps to prepare (TODO: Update)
 
 - In the command-line, cd to **~/workspace-traning/EclipseTraning**. 
 	- Execute **git reset --hard 1af2ce**
@@ -362,7 +362,7 @@ title: Exercise: Listen to a signal
 - Reset to **TRACECOMPASS2.1_START** (should already have been done in previous steps)
 - Create a class that will receive the signal, `EventReader`
 - Instantiate the class. For now, we will do this in the `Activator` class.
-- Register the class with the `TmfTraceSignalManager`
+- Register the new class with the `TmfTraceSignalManager`
 - Create a `public` method that will receive the signal:
 	- Annotate your method with `@TmfSignalHandler`
 	- It needs a `TmfTraceOpenedSignal` parameter
@@ -932,6 +932,8 @@ title: State Value Interface
 subtitle: 
 
 - All state values implement interface `ITmfStateValue`
+- `Note`: 
+   Use `Object` instead of `ITmfStateValue` where possible for better performance
 
 ~~~java
 
@@ -955,7 +957,12 @@ subtitle:
 ~~~java
 ITmfStateValue value = getValue();
 if (value.getType() == Type.Integer) {
-	int retVal = interval.getValue().unboxInt();
+	int retVal = value.unboxInt();
+}
+
+Object value2 = getValueObject();
+if (value2 instanceof Integer) {
+	int retVal = (Integer) value2;
 }
 ~~~
 
@@ -976,6 +983,7 @@ long getEndTime();
 ~~~java
 int getAttribute();
 ITmfStateValue getStateValue();
+Object getValue();
 ~~~
 
 - Validates whether it intersects with a given timestamp
@@ -1008,7 +1016,7 @@ subtitle: ITmfStateSystemBuilder
 - Note: timestamp is a long value
 
 ~~~java
-void modifyAttribute(long t, ITmfStateValue value, int attributeQuark)
+void modifyAttribute(long t, Object value, int attributeQuark)
 	throws StateValueTypeException;
 ~~~
 
@@ -1017,7 +1025,7 @@ void modifyAttribute(long t, ITmfStateValue value, int attributeQuark)
 	- e.g. return value of a function call
 
 ~~~java
-void updateOngoingState(ITmfStateValue newValue, int attributeQuark);
+void updateOngoingState(Object newValue, int attributeQuark);
 ~~~
 
 ---
@@ -1028,12 +1036,12 @@ subtitle: ITmfStateSystemBuilder
 - Push and pop a state value on a stack
 
 ~~~java
-void pushAttribute(long t, ITmfStateValue value, int attributeQuark)
+void pushAttribute(long t, Object value, int attributeQuark)
 	throws StateValueTypeException;
 ~~~
 
 ~~~java
-ITmfStateValue popAttribute(long t, int attributeQuark)
+Object popAttributeObject(long t, int attributeQuark)
 	throws StateValueTypeException;
 ~~~
 
@@ -1101,8 +1109,7 @@ protected void eventHandle(ITmfEvent event) {
 		int quark = stateSystem.getQuarkAbsoluteAndAdd("Requester", requester);
 
 		// Create new state value
-		ITmfStateValue stateValue = TmfStateValue.newValueInt
-			(IEventConstants.ProcessingStates.INITIALIZING.ordinal());
+		Object stateValue = IEventConstants.ProcessingStates.INITIALIZING.ordinal();
 
 		// get time of event
 		long t = event.getTimestamp().getValue();
@@ -1287,6 +1294,28 @@ ITmfStateInterval querySingleState(long t, int attributeQuark)
 ~~~java
 List<ITmfStateInterval> queryFullState(long t)
 	throws StateSystemDisposedException;
+~~~
+---
+title: Query a state system (5)
+subtitle: ITmfStateSystem
+
+- Multiple attribute and multiple times iterable query
+
+~~~java
+Iterable<ITmfStateInterval> query2D(@Collection<Integer> quarks,
+	Collection<Long> times) 
+		throws StateSystemDisposedException, IndexOutOfBoundsException,
+		TimeRangeException;
+~~~
+
+
+- Multiple attribute and time range iterable query
+
+~~~java
+Iterable<ITmfStateInterval> query2D(Collection<Integer> quarks, 
+	long start, long end)
+		throws StateSystemDisposedException, IndexOutOfBoundsException,
+		TimeRangeException;
 ~~~
 
 ---
@@ -1491,17 +1520,22 @@ subtitle:
 ---
 title: Time Graph View Overview (2)
 subtitle: 
+content_class: smaller
 
 - Typically views extend abstract classes
 	- `AbstractTimeGraphView`
 	- `AbstractStateSystemTimeGraphView`
+	- `BaseDataProviderTimeGraphView'
 - Use `AbstractTimeGraphView` to populate each row at a time
-	- Small number of rows
+	- Loads only visible rows
 	- Works with or without state systems
 - Use `AbstractStateSystemTimeGraphView` to populate all entries by time
 	- High number of rows
-	- Uses full state system queries (more efficient query)
+	- Uses full state system queries (more efficient query than single query)
 	- Works only with state systems
+- Use `BaseDataProviderTimeGraphView` to populate use Data Provider API
+	- Decoupled UI and core code
+	- Possible to serialize data structure from data provider
 
 ---
 title: Class Hierarchy
@@ -1708,6 +1742,12 @@ protected List<IMarkerEvent> getViewMarkerList(
 ~~~
 
 ---
+title: TODO Data Provider API
+subtitle:
+
+- TODO
+ 
+---
 title: Module 6
 subtitle: Timing Analysis
 
@@ -1817,8 +1857,10 @@ subtitle: ISegmentStore
 title: Timing Analysis API
 subtitle: Limitations
 
-- **WARNING**: Current segment store implementations are loaded **fully into memory**.
-- If your trace will generate many segments, Trace Compass might **run out of memory**.
+- Segement store can be in memory or on disk
+- If your trace will generate many segments, use `SegmentStoreType.OnDisk`
+- **Warning**: The segment store table becomes slow when having huge amount of segments. This is due
+to the SWT implementation of the virtual table in Linux
 
 - This will likely be fixed in the near future versions of Trace Compass.
 
@@ -1893,14 +1935,29 @@ title: Latency Table view
 title: Latency Table view
 subtitle: API
 
+- Use declarative-only API in plug-in.xml for default view 
+- Or implement `AbstractSegmentStoreTableView` and `AbstractSegmentStoreTableViewer` and hook it up in plug-in.xml
+
+---
+title: Latency Table view (2)
+subtitle: API
+content_class: smaller
+
+- Use declarative-only API in plug-in.xml for default view 
+	- class: `SegmentStoreTableView`
+	- For view ID and analysis output ID:`<viewID>:<analysisModuleId>`
+	where
+		- viewID: `org.eclipse.tracecompass.analysis.timing.ui.segstore.table`
+		- analysisModuleId: Segment store analysis module ID
+
+---
+title: Latency Table view (3)
+subtitle: API
+content_class: smaller
+
 - `AbstractSegmentStoreTableView`
 	- An abstract class that helps create a table view.
 	- `createSegmentStoreViewer`: has to return an AbstractSegmentStoreTableViewer
-
----
-title: Latency Table view
-subtitle: API
-
 - `AbstractSegmentStoreTableViewer`
 	- An abstract class that helps create a table viewer.
 	- `createProviderColumns`: can be overridden to have greater influence on columns (order, etc.).
@@ -1931,9 +1988,34 @@ title: Statistics view
 <center><img src="images/timingviews_statistics.png"/></center>
 
 ---
-title: Statistics view
+title: Statistics view (2)
 subtitle: API
+content_class: smaller
 
+- Use declarative-only API in plug-in.xml for default view
+	- Only total statistic and statistic per name (see `INamedSegment` interface')
+- Or implement API classes and hook it up in the plug-in.xml
+	- `AbstractSegmentStatisticsAnalysis`
+	- `AbstractSegmentStoreStatisticsView`
+	- `AbstractSegmentStoreStatisticsViewer` 
+
+---
+title: Statistics view (3)
+subtitle: API
+content_class: smaller
+
+- Use declarative-only API in plug-in.xml for default view
+	- class: `SegmentStoreStatisticsView`
+	- For view ID and analysis output ID:`<viewID>:<analysisModuleId>`
+	where
+		- viewID: `org.eclipse.tracecompass.analysis.timing.ui.segstore.statistics`
+		- analysisModuleId: Segment store analysis module ID
+
+---
+title: Statistics view (4) - TODO update
+subtitle: API 
+
+- Non-declarative way
 - `AbstractSegmentStatisticsAnalysis`
 	- An abstract class that helps create a statistics module reusing an existing segment store provider (i.e. another module).
 	- `getSegmentType`: returns the segment type to compute the statistics for.
@@ -1947,14 +2029,14 @@ protected ISegmentStoreProvider getSegmentProviderAnalysis(ITmfTrace trace) {
 ~~~
 
 ---
-title: Statistics view
+title: Statistics view (5) - TODO update
 subtitle: API
 
-- `AbstractSegmentStoreStatisticsView`
+- `AbstractSegmentsStatisticsView`
 	- An abstract class that helps create a statistics view.
-	- `createSegmentStoreStatisticsViewer`: has to return an `AbstractSegmentStoreStatisticsViewer`
+	- `createSegmentStoreStatisticsViewer`: has to return an `AbstractSegmentsStatisticsViewer`
 
-- `AbstractSegmentStoreStatisticsViewer`
+- `AbstractSegmentsStatisticsViewer`
 	- An abstract class that helps create a statistics viewer.
 	- `createStatisticsAnalysiModule`: returns which analysis module will provide the statistics.
 	- `updateElements`: creates and updates items in the statistics tree. This is where a hierarchy can be created.
@@ -1963,17 +2045,13 @@ subtitle: API
 title: Exercise: Create a Statistics View
 
 - Reset to **TRACECOMPASS7.2_START**
-- Create a class `ProcessingLatencyStatisticsModule` with super class (extends) `AbstractSegmentStatisticsAnalysis`
-	- Implement `getSegmentType()`: In our example, it's the name of the segment
-	- Implement  `getSegmentProviderAnalysis`
-- `ProcessingLatencyStatisticsViewer` is created for you with some **TODOS**.
-	- Return a new instance of the statistics module (see previous steps)
-	- Build the statistics tree by creating new entries
-- In plugin.xml, create the missing class `ProcessingLatencyStatisticsView` (tip: click the hyperlink to bring up the New Class wizard). Select super class `AbstractSegmentStoreStatisticsView`.
+- In plugin.xml, create view extension and use class `SegmentStoreStatisticsView`.
+	- Fill the correct view ID
+- In plugin.xml create analysis output extension for latency analysis module
 - <b>Go!</b>
 
 ---
-title: Scatter chart
+title: Scatter chart - TODO update picture
 
 - The Scatter view displays the segment durations over time in a 2D plot chart
 	- Each dot represents the time it ended on the X-axis and its duration on the Y-axis
@@ -1987,20 +2065,21 @@ subtitle: API
 
 - `TmfChartView`
 	- An abstract class that helps create a view based on a chart (SWTChart)
-	- `createChartViewer`: has to return an `TmfXYChartViewer` (which `AbstractSegmentStoreScatterGraphViewer` extends).
-
-- `AbstractSegmentStoreScatterGraphViewer`
+	- `createChartViewer`: has to return an `TmfXYChartViewer` (which `AbstractSegmentStoreScatterChartViewer` extends).
+	- `createLeftChildViewer`: return an instance of `AbstractSegmentStoreScatterChartTreeViewer`
+- `AbstractSegmentStoreScatterChartViewer`
 	- An abstract class that helps create a scatter viewer.
-	- `getSegmentStoreProvider`: returns which analysis module will provide the segment store
+	- Implement constructor to pass correct latency analysis module ID
 
 ---
 title: Exercise: Create a Scatter View
 
 - Reset to **TRACECOMPASS7.3_START**
-- Create class `ProcessingLatencyScatterGraphViewer`, select super class (extends)  `AbstractSegmentStoreScatterGraphViewer`
-	- Implement method `getSegmentStoreProvider`
+- Create class `ProcessingLatencyScatterGraphViewer`, select super class (extends)  `AbstractSegmentStoreScatterChartViewer`
+	- Implement method constructor and pass `ProcessingLatancyAnalysis.ID`
 - In plugin.xml, create the missing class `ProcessingLatencyScatterView` (tip: click the hyperlink to bring up the New Class wizard). Select super class (extends)  `TmfChartView`.
 	- Implement `createChartViewer` 
+	- Implement `createLeftChildViewer`
 - <b>Go!</b>
 
 ---
