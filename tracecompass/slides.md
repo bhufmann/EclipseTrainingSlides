@@ -1,12 +1,15 @@
-% title: Eclipse Trace Compass
-% title_class:                  #empty, largeblend[123] or fullblend
-% author: Bernd Hufmann
-% author: Marc-André Laperle
-% thankyou: Thank you
-% thankyou_details:
-
 ---
-title: Agenda
+title: Eclipse Trace Compass
+theme: 'white'
+
+revealOptions:
+    transition: 'slide'
+---
+# Eclipse Trace Compass
+* author: Bernd Hufmann
+* author: Marc-André Laperle
+---
+# Agenda
 
 - Day 1
     - Module 1: Overview and Background
@@ -19,7 +22,7 @@ title: Agenda
 	- Module 7: Timing Analysis Views
 	- Module 8: Custom Analysis
 ---
-title: Approach to course
+# Approach to course
 
 - A mix of theory and hands-on exercises
 - Teams of 2
@@ -32,11 +35,11 @@ title: Approach to course
 <center>**Let's get started!**</center>
 
 ---
-title: Module 1
-subtitle: Overview and Background
+# Module 1
+## Overview and Background
 
 ---
-title: Trace Compass Overview
+# Trace Compass Overview
 
 - **Framework** to build trace visualization and analysis tools
 
@@ -52,22 +55,21 @@ title: Trace Compass Overview
 <center><img src="images/tracecompass.png"/></center>
 
 ---
-title: Trace Compass Overview
+# Trace Compass Overview
 
 - **Open source** Eclipse Project
-
 - **EPL**
-
 - Mostly written in **Java**
-
+----
+# Trace Compass Overview
 <center>
 <div style="display:table-cell; width:70%;text-align: left;">
 <ul>
 <li>Quite active, growing community:
 <ul>
 	<li>Academia: École Polytechnique Montréal, Concordia, others</li>
-	<li>Industry: Ericsson, EfficiOS, others</li>
-	<li>Government: NSERC, DRDC, NOAA (US)</li>
+	<li>Industry: Ericsson, Ciena, EfficiOS, others</li>
+	<li>Government: NSERC, Prompt, DRDC, NOAA (US)</li>
 	<li>Kalray</li>
 	<li>Windriver</li>
 </ul>
@@ -79,28 +81,25 @@ title: Trace Compass Overview
 </center>
 
 ---
-title: Trace Compass Overview
+# Trace Compass Overview
 
 <center><img src="images/tracecompass_overview.png"/></center>
 
----
-title: Trace Compass Overview
-subtitle: Common Features
+----
+## Common Features
 
 - Management of traces, trace formats and experiments
 
 <center><img src="images/tracecompass_trace_management.png"/></center>
-
----
-title: Trace Compass Overview
-subtitle: Common Features
+----
+## Common Features
 
 - Package export and import
 
 <center><img src="images/tracecompass_trace_package.png"/></center>
 
 ---
-title: Trace Compass Overview
+# Trace Compass Overview
 
 - What is a trace in Trace Compass?
 	- A Series of **events** over time
@@ -109,17 +108,16 @@ title: Trace Compass Overview
 <center><img src="images/trace_events.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Common Features
+# Trace Compass Overview
+## Common Features
 
 - Events Table
 	- Implemented as an Eclipse "editor"
 
 <center><img src="images/tracecompass_events_editor.png"/></center>
 
----
-title: Trace Compass Overview
-subtitle: Common Features
+----
+## Common Features
 
 <center>
 <p>
@@ -136,17 +134,15 @@ subtitle: Common Features
 </p>
 </center>
 
----
-title: Trace Compass Overview
-subtitle: Common Features
+----
+## Common Features
 
 - Bookmarks and markers
 
 <center><img src="images/tracecompass_bookmarks.png"/></center>
 
----
-title: Trace Compass Overview
-subtitle: Common Features
+----
+## Common Features
 
 - Sequence Diagrams
 	- Translates events to sequence diagram transaction
@@ -155,8 +151,8 @@ subtitle: Common Features
 <center><img src="images/tracecompass_sequencediagrams.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: State System
+# Trace Compass Overview
+## State System
 
 <center><img src="images/tracecompass_statesystem.png"/></center>
 
@@ -165,8 +161,8 @@ subtitle: State System
 <center><img src="images/tracecompass_statesystem_events.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Control Flow View
+# Trace Compass Overview
+## Control Flow View
 
 - Displays processes state changes (color-coded) over time
 	- USERMODE, SYSCALL, INTERRUPED, WAIT_FOR_CPU, etc.
@@ -174,44 +170,44 @@ subtitle: Control Flow View
 <center><img src="images/tracecompass_controlflowview.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Resources View
+# Trace Compass Overview
+## Resources View
 
 - Displays system resource states (color-coded) over time
 
 <center><img src="images/tracecompass_resourcesview.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: CPU Usage View
+# Trace Compass Overview
+## CPU Usage View
 
 - Displays % of CPU used per thread over time
 
 <center><img src="images/tracecompass_cpuusageview.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Call Stack View
+# Trace Compass Overview
+## Call Stack View
 
 - Shows the stack trace at any point during execution
 
 <center><img src="images/tracecompass_callstackview.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Critical Path
+# Trace Compass Overview
+## Critical Path
 
 <center><img src="images/tracecompass_criticalpathview.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Timing Analysis
+# Trace Compass Overview
+## Timing Analysis
 
 <center><img style="width:700px;" src="images/tracecompass_latencyviews.png"/></center>
 
 ---
-title: Trace Compass Overview
-subtitle: Custom Text and XML Parsers
+# Trace Compass Overview
+## Custom Text and XML Parsers
 
 <center>
 <div style="display:table-cell; width:50%;"><img style="width:400px;" src="images/tracecompass_customtext.png"/></div>
@@ -225,8 +221,8 @@ subtitle: Custom Text and XML Parsers
 </center>
 
 ---
-title: Trace Compass Overview
-subtitle: Trace correlation (Experiments)
+# Trace Compass Overview
+## Trace correlation (Experiments)
 
 - Trace Compass can open **multiple traces** together to view it **as one**
 	- This is called an **Experiment**
@@ -237,8 +233,8 @@ subtitle: Trace correlation (Experiments)
 - Traces can be manually synchronized by time or use an automatic algorithm (extensible)
 
 ---
-title: Trace Compass Overview
-subtitle: Integrations
+# Trace Compass Overview
+## Integrations
 
 - LTTng (UST, Kernel)
 - Text Logs (custom parsers)
@@ -248,7 +244,7 @@ subtitle: Integrations
 - GDB Trace Points
 
 ---
-title: Common Trace Format (CTF)
+# Common Trace Format (CTF)
 
 - CTF is one of the trace formats understood by Trace Compass
 - A **metadata** file describes the trace structure, event fields, environment, etc.
@@ -258,8 +254,8 @@ title: Common Trace Format (CTF)
 - Trace Compass **reads** CTF traces directly using a Java-based parser.
 - Trace Compass **does not** produce CTF traces, tracers like LTTng do.
 ---
-title: Trace Compass Overview
-subtitle: References
+# Trace Compass Overview
+## References
 
 - Project pages
 	- <a href="http://tracecompass.org">tracecompass.org</a>
@@ -274,7 +270,7 @@ subtitle: References
 	- <a href="http://archive.eclipse.org/tracecompass/doc/org.eclipse.tracecompass.doc.dev/Developer-Guide.html">Trace Compass Developer Guide</a>
 
 ---
-title: The example
+# The example
 
 - 2 processes exchanging messages (over sockets)
 	- **master** process
@@ -287,17 +283,17 @@ title: The example
 - We trace **master**
 
 ---
-title: The example
-subtitle: 
+# The example
+## 
 
 <center><image src="images/tracecompass_example-explained.png"/></center>
 
 ---
-title: Module 2
-subtitle: Core Trace API
+# Module 2
+## Core Trace API
 
 ---
-title: Signals
+# Signals
 
 - Classes can register themselves to receive various Trace-related signals
 - Uses Java annotation, `@TmfSignalHandler`, to mark method that receives the signal
@@ -314,7 +310,7 @@ public void traceClosed(TmfTraceClosedSignal signal) {
 }
 ~~~
 ---
-title: Steps to prepare (TODO: Update)
+# Steps to prepare (TODO: Update)
 
 - In the command-line, cd to **~/workspace-traning/EclipseTraning**. 
 	- Execute **git reset --hard 1af2ce**
@@ -324,7 +320,7 @@ title: Steps to prepare (TODO: Update)
 - You should only have *External Plug-in Libraries*
 - All good?
 ---
-title: Steps to prepare
+# Steps to prepare
 
 - Go to *Plug-in Development perspective**:
     - **File->Import...->General->Existing Projects into Workspace**
@@ -336,7 +332,7 @@ title: Steps to prepare
 
 - Right-click on project and choose **Team->Fetch from Upstream**
 ---
-title: How to reset to commits
+# How to reset to commits
 
 - Open the History view (tab at the bottom of the screen)
 - If nothing appears, click on the **org.eclipse.tracecompass.training.example**
@@ -345,7 +341,7 @@ title: How to reset to commits
 <center><img src="images/git_reset.png"/></center>
 
 ---
-title: How to test
+# How to test
 
 - Start the "runtime" Eclipse
 
@@ -357,7 +353,7 @@ title: How to test
 <center><image style="width:250px; height:auto" src="images/tracecompass_trace_open.png"/></center>
 
 ---
-title: Exercise: Listen to a signal
+# Exercise: Listen to a signal
 
 - Reset to **TRACECOMPASS2.1_START** (should already have been done in previous steps)
 - Create a class that will receive the signal, `EventReader`
@@ -370,7 +366,7 @@ title: Exercise: Listen to a signal
 - <b>Go!</b>
 
 ---
-title: Trace API
+# Trace API
 
 `ITmfTrace`
 
@@ -384,7 +380,7 @@ automatic detection, etc.)
 
 ---
 
-title: Event Provider
+# Event Provider
 
 - Event providers have the capability of handling event requests.
 - Often implemented in pair with `ITmfTrace` in each trace type
@@ -393,7 +389,7 @@ title: Event Provider
 <center><image src="images/tracecompass_tmfeventprodider_class.png"/></center>
 
 ---
-title: Event Requests
+# Event Requests
 
 `TmfEventRequest`
 
@@ -413,7 +409,7 @@ eventProvider.sendRequest(new TmfEventRequest(
 ~~~
 
 ---
-title: Events
+# Events
 
 `ITmfEvent`
 
@@ -431,7 +427,7 @@ if (field != null) {
 ~~~
 
 ---
-title: Exercise: Read events from the trace
+# Exercise: Read events from the trace
 
 - Reset to **TRACECOMPASS2.2_START**
 - In the signal handler, get the trace object from the signal parameter
@@ -443,7 +439,7 @@ title: Exercise: Read events from the trace
 - <b>Go!</b>
 
 ---
-title: Module 2 Review
+# Module 2 Review
 
 - **Signals** can be used to react to different things.
 - **ITmfTrace** is a central object that validates if files are of this trace type, provides trace attributes, seeks to locations and retrieves events.
@@ -454,8 +450,8 @@ title: Module 2 Review
 	- We have retrieved **events** using **event requests** sent to the **trace** (`ITmfTrace`)
 
 ---
-title: Module 3
-subtitle: Analysis Framework
+# Module 3
+## Analysis Framework
 
 - Overview
 - Analysis Module
@@ -467,8 +463,8 @@ subtitle: Analysis Framework
 
 ---
 
-title: Analysis Framework Overview
-subtitle: 
+# Analysis Framework Overview
+## 
 
 - API for integrating trace analyses
 - Plug-in extension point
@@ -480,8 +476,8 @@ subtitle:
 - Manages requirements to execute analyses
 
 ---
-title: Analysis Module
-subtitle:
+# Analysis Module
+##
 
 - All analyses implement `ITmfAnalysisModule`
 - Abstract implementation `TmfAbstractAnalysisModule`
@@ -503,8 +499,8 @@ public class ProcessingTimeAnalysis extends TmfAbstractAnalysisModule {
 ~~~
 
 ---
-title: Analysis Module (2)
-subtitle: 
+# Analysis Module (2)
+## 
 
 - Analysis is scheduled `IAnalysisModule#schedule()`
 - `IAnalysisModule#waitForCompletion()` will block thread until completion
@@ -516,8 +512,8 @@ subtitle:
 - `TmfAnalysisManager` keeps track on available analysis per trace type
 
 ---
-title: Plug-in Extension Point
-subtitle: Analysis Module
+# Plug-in Extension Point
+## Analysis Module
 content_class: smaller
 
 - **Identifier**: org.eclipse.linuxtools.tmf.core.analysis
@@ -539,8 +535,8 @@ content_class: smaller
 - **applies_experiment**: If it applies to traces or experiments.
 
 ---
-title: Plug-in Manifest Editor
-subtitle: 
+# Plug-in Manifest Editor
+## 
 
 - Click on **Add...** Button
 - Find org.eclipse.linuxtools.tmf.core.analysis
@@ -550,8 +546,8 @@ subtitle:
 <center><img src="images/ExtensionAnalysisModule.png" width="80%" height="80%"/></center>
 
 ---
-title: Project Explorer
-subtitle: 
+# Project Explorer
+## 
 
 - Shows all available analyses under trace or experiment
 - Note: Need to open trace to see available analyses
@@ -559,8 +555,8 @@ subtitle:
 <center><img src="images/ProjectExplorerWithAnalysis.png" width="40%" height="40%"/></center>
 
 ---
-title: Apply to Trace Type
-subtitle: 
+# Apply to Trace Type
+## 
 
 - Define the trace type the analysis applies (or not)
 
@@ -578,8 +574,8 @@ subtitle:
 
 ---
 
-title: Apply to Trace Type (2) 
-subtitle: 
+# Apply to Trace Type (2) 
+## 
 
 - Right-click on analysis module -> New -> tracetype
 - Fill-in the class
@@ -587,8 +583,8 @@ subtitle:
 <center><img src="images/ExtensionAnalysisModule-TraceType.png" width="80%" height="80%"/></center>
 
 ---
-title: Exercise: Create an analysis module
-subtitle: 
+# Exercise: Create an analysis module
+## 
 content_class: smaller
 
 - Reset to **TRACECOMPASS3.1_START**
@@ -605,8 +601,8 @@ content_class: smaller
 - continue on next slide
 
 ---
-title: Exercise: Create an analysis module
-subtitle: 
+# Exercise: Create an analysis module
+## 
 content_class: smaller
 
 - Right-click on Processing Analysis -> New -> tracetype
@@ -615,8 +611,8 @@ content_class: smaller
 - **Go!**	
 
 ---
-title: Exercise Review
-subtitle: What we accomplished
+# Exercise Review
+## What we accomplished
 
 - Defining an analysis extension
 - Applying analysis to a trace type
@@ -626,8 +622,8 @@ subtitle: What we accomplished
 
 ---
 
-title: Analysis Requirements
-subtitle: 
+# Analysis Requirements
+## 
 
 - Provide information to user if analysis can't run
 - Requirements on event types or specific event field
@@ -642,8 +638,8 @@ public interface IAnalysisRequirementProvider {
 
 ---
 
-title: Analysis Requirements (2)
-subtitle: 
+# Analysis Requirements (2)
+## 
 
 - Extend `TmfAbstractAnalysisRequirement` or
 - Use existing classes 
@@ -654,8 +650,8 @@ subtitle:
 	- e.g. `PriorityLevel#MANDATORY`, `PriorityLevel#OPTIONAL`
 
 ---
-title: Analysis Requirements Example
-subtitle: 
+# Analysis Requirements Example
+## 
 content_class: smaller
 
 ~~~java
@@ -677,8 +673,8 @@ public Iterable<TmfAbstractAnalysisRequirement> getAnalysisRequirements() {
 }
 ~~~
 ---
-title: Analysis Requirements
-subtitle: Project Explorer
+# Analysis Requirements
+## Project Explorer
 
 - If requirements are not fulfilled the analysis is strike-through
 - Help text is available through context-sensitive menu
@@ -686,8 +682,8 @@ subtitle: Project Explorer
 <center><img src="images/ProjectExplorer-no-requirements.png " width="75%" height="75%"/></center>
 
 ---
-title: Analysis Parameter Provider
-subtitle:
+# Analysis Parameter Provider
+##
 
 - Analysis may have parameters
 - Default values can be set as part of analysis extension
@@ -705,8 +701,8 @@ subtitle:
 - Use listener to register another view to be notified when selection changes
 
 ---
-title: Parameter Provider Example
-subtitle:
+# Parameter Provider Example
+##
 content_class: smaller
 
 - 
@@ -731,8 +727,8 @@ public class MyAnalysisParamProvider extends TmfAbstractAnalysisParamProvider {
 ~~~
 
 ---
-title: Dependent Analyses
-subtitle:
+# Dependent Analyses
+##
 
 - An analysis can depend on other analyses
 - Dependent analysis needs to execute beforehand
@@ -740,8 +736,8 @@ subtitle:
 - Implement `TmfAbstractAnalysisModule#getDependentAnalyses()`
 
 ---
-title: Dependent Analyses (2)
-subtitle:
+# Dependent Analyses (2)
+##
 content_class: smaller
 
 ~~~java
@@ -759,8 +755,8 @@ protected Iterable<IAnalysisModule> getDependentAnalyses() {
 ~~~
 
 ---
-title: Analysis Output
-subtitle: 
+# Analysis Output
+## 
 
 - Analysis can have one or more outputs
 - Typically it's an Eclipse view
@@ -769,8 +765,8 @@ subtitle:
 - Shown in Project Explorer under the traces
 ---
 
-title: Analysis Output (2)
-subtitle: 
+# Analysis Output (2)
+## 
 
 - Associates an output with an analysis module or a class of analysis modules in plugin.xml
 
@@ -786,8 +782,8 @@ subtitle:
 - **id**: An ID for this output. For example, for a view, it would be the view ID.
 
 ---
-title: Plug-in Extension Point
-subtitle: Plug-in Manifest Editor
+# Plug-in Extension Point
+## Plug-in Manifest Editor
 
 - Right-click on `org.eclipse.linuxtools.tmf.core.analysis` -> New -> output
 	- Fill in class of output and id of view
@@ -797,8 +793,8 @@ subtitle: Plug-in Manifest Editor
 <center><img src="images/AnalysisOutputExtension.png" width="70%" height="70%"/></center>
 
 ---
-title: Project Explorer
-subtitle: 
+# Project Explorer
+## 
 
 - Shows all available view under the analyses
 - Trace needs to open to see available analyses
@@ -808,8 +804,8 @@ subtitle:
 
 
 ---
-title: Exercise: Create an output
-subtitle: 
+# Exercise: Create an output
+## 
 content_class: smaller
 
 - Reset to **TRACECOMPASS3.3_START**
@@ -826,24 +822,24 @@ content_class: smaller
 - **Go!**	
 
 ---
-title: Exercise Review
-subtitle: What we accomplished
+# Exercise Review
+## What we accomplished
 
 - Implementing analysis output
 - Opening the output from the Project Explorer
 - Exploring the analysis in Project Explorer
 
 ---
-title: Module 4
-subtitle: Generic State System
+# Module 4
+## Generic State System
 
 - Generic State System Overview
 - State System API
 - State System Analysis Module
 
 ---
-title: Generic State System Overview
-subtitle: 
+# Generic State System Overview
+## 
 
 <center><img src="images/StateSystemOverview.png" width="50%" height="50%"/></center>
 
@@ -857,8 +853,8 @@ subtitle:
 
 ---
 
-title: State System Definitions
-subtitle:
+# State System Definitions
+##
 
 - **Attribute**
 	- Smallest element of a state
@@ -873,8 +869,8 @@ subtitle:
 	- Makes faster queries
 
 ---
-title: State System Definitions (2)
-subtitle:
+# State System Definitions (2)
+##
 
 - **State Interval**
 	- State intervals are returned when querying the state system
@@ -891,8 +887,8 @@ subtitle:
 
 ---
 
-title: Attribute Tree example
-subtitle:
+# Attribute Tree example
+##
 
 - Linux Kernel State System
 - Example path: Processes/1001/PPID
@@ -915,8 +911,8 @@ subtitle:
 
 ---
 
-title: State System API
-subtitle: 
+# State System API
+## 
 
 - State value interface: `ITmfStateValue`
 - State interval interface: `ITmfStateInterval`
@@ -928,8 +924,8 @@ subtitle:
 - Create a state system and assign a backend: `StateSystemFactory`
 
 ---
-title: State Value Interface
-subtitle: 
+# State Value Interface
+## 
 
 - All state values implement interface `ITmfStateValue`
 - `Note`: 
@@ -949,8 +945,8 @@ ITmfStateValue longValue = TmfStateValue.newValueLong();
 ~~~
 
 ---
-title: State Value Interface
-subtitle: 
+# State Value Interface
+## 
 
 - Read the value, for example: `IntegerStateValue`
 
@@ -967,8 +963,8 @@ if (value2 instanceof Integer) {
 ~~~
 
 ---
-title: State Interval Interface
-subtitle: 
+# State Interval Interface
+## 
 
 - All state intervals implement interface `ITmfStateInterval`
 - Has a start and end time
@@ -994,8 +990,8 @@ boolean intersects(long timestamp);
 
 ---
 
-title: Building a state system
-subtitle: ITmfStateSystemBuilder
+# Building a state system
+## ITmfStateSystemBuilder
 
 - Main interface used during state system building: `ITmfStateSystemBuilder`
 - Getting/adding an attribute quark using an absolute path 
@@ -1009,8 +1005,8 @@ int getQuarkRelativeAndAdd(int startingNodeQuark, String... subPath);
 
 ---
 
-title: Building a state system (2)
-subtitle: ITmfStateSystemBuilder
+# Building a state system (2)
+## ITmfStateSystemBuilder
 
 - Modifying a state value when state change occurs
 - Note: timestamp is a long value
@@ -1030,8 +1026,8 @@ void updateOngoingState(Object newValue, int attributeQuark);
 
 ---
 
-title: Building a state system (3)
-subtitle: ITmfStateSystemBuilder
+# Building a state system (3)
+## ITmfStateSystemBuilder
 
 - Push and pop a state value on a stack
 
@@ -1046,8 +1042,8 @@ Object popAttributeObject(long t, int attributeQuark)
 ~~~
 
 ---
-title: State System Analysis Module
-subtitle: TmfStateSystemAnalysisModule
+# State System Analysis Module
+## TmfStateSystemAnalysisModule
 
 - State system analysis modules typically extend `TmfStateSystemAnalysisModule`
 - By default, full history on disk (default can be overwritten)
@@ -1059,8 +1055,8 @@ subtitle: TmfStateSystemAnalysisModule
 	- Delete state systems: Right-click on trace -> **Delete Supplementary Files...**
 
 ---
-title: State System Analysis Module (2)
-subtitle: TmfStateSystemAnalysisModule
+# State System Analysis Module (2)
+## TmfStateSystemAnalysisModule
 content_class: smaller
 
 - Access state system using static utility method
@@ -1080,8 +1076,8 @@ protected ITmfStateProvider createStateProvider() {
 }
 ~~~
 ---
-title: State provider
-subtitle: 
+# State provider
+## 
 
 - All state provider implement interface `ITmfStateProvider`
 - Typically, extend `AbstractTmfStateProvider`
@@ -1092,8 +1088,8 @@ subtitle:
 - Implement `AbstractTmfStateProvider#eventHandle()`
 
 ---
-title: State provider (2)
-subtitle:
+# State provider (2)
+##
 content_class: smaller 
 
 ~~~java
@@ -1122,8 +1118,8 @@ protected void eventHandle(ITmfEvent event) {
 ~~~
 
 ---
-title: Exercise: Implement a state provider
-subtitle:
+# Exercise: Implement a state provider
+##
 content_class: smaller
 
 - Reset to **TRACECOMPASS4.1_START**
@@ -1140,16 +1136,16 @@ content_class: smaller
 - **Go!**
 
 ---
-title: Exercise State Machine
-subtitle: 
+# Exercise State Machine
+## 
 
 <center><img src="images/ExerciseStateMachine.png" width="50%" height="50%"/></center>
 
 - Note: When receiving **ust_master:end** set the state to the null state!
 
 ---
-title: Exercise Attribute Tree
-subtitle:
+# Exercise Attribute Tree
+##
 
  
 ~~~
@@ -1166,8 +1162,8 @@ subtitle:
 
 ---
 
-title: Bonus exercise: 2nd State Machine
-subtitle: 
+# Bonus exercise: 2nd State Machine
+## 
 
 - Reset to **TRACECOMPASS4.2_START**
 - Update `ProcessingTimeStateProvider` (see state machine on next slide)
@@ -1180,14 +1176,14 @@ subtitle:
 
 ---
 
-title: Example State Machine (2)
-subtitle: 
+# Example State Machine (2)
+## 
 
 <center><img src="images/ExerciseProcessingStateMachine.png" width="45%" height="45%"/></center>
 
 ---
-title: Exercise Attribute Tree
-subtitle:
+# Exercise Attribute Tree
+##
 
  
 ~~~
@@ -1204,8 +1200,8 @@ subtitle:
 
 
 ---
-title: Exercise Review
-subtitle: What we accomplished
+# Exercise Review
+## What we accomplished
 
 - Overview of Generic State System APIs (for building)
 - Creating a state system analysis module
@@ -1214,8 +1210,8 @@ subtitle: What we accomplished
 - Deleting the supplementary files
 
 ---
-title: Query a state system
-subtitle: ITmfStateSystem
+# Query a state system
+## ITmfStateSystem
 
 - Main interface for accessing state system `ITmfStateSystem`
 - Use after state system is built
@@ -1236,8 +1232,8 @@ int getQuarkRelative(int startingNodeQuark, String... subPath)
 ~~~
 
 ---
-title: Query a state system (2)
-subtitle: ITmfStateSystem
+# Query a state system (2)
+## ITmfStateSystem
 
 - Getting a quark of an optional attribute from absolute path
 
@@ -1254,8 +1250,8 @@ int optQuarkRelative(int startingNodeQuark, String... subPath);
 - Return `#INVALID_ATTRIBUTE` (-2) if it doesn't exist
 
 ---
-title: Query a state system (3)
-subtitle: ITmfStateSystem
+# Query a state system (3)
+## ITmfStateSystem
 
 - Getting a list of quarks from a wildcarded path ("*" or "..")
 
@@ -1278,8 +1274,8 @@ void waitUntilBuilt(long timeout);
 ~~~
 
 ---
-title: Query a state system (4)
-subtitle: ITmfStateSystem
+# Query a state system (4)
+## ITmfStateSystem
 
 - Querying a single state at a given timestamp
 
@@ -1296,8 +1292,8 @@ List<ITmfStateInterval> queryFullState(long t)
 	throws StateSystemDisposedException;
 ~~~
 ---
-title: Query a state system (5)
-subtitle: ITmfStateSystem
+# Query a state system (5)
+## ITmfStateSystem
 
 - Multiple attribute and multiple times iterable query
 
@@ -1319,8 +1315,8 @@ Iterable<ITmfStateInterval> query2D(Collection<Integer> quarks,
 ~~~
 
 ---
-title: Query a state system (5)
-subtitle: StateSystemUtils
+# Query a state system (5)
+## StateSystemUtils
 content_class: smaller
 
 - Utility class to query history range
@@ -1342,8 +1338,8 @@ public static List<ITmfStateInterval> queryHistoryRange(
 ~~~
 
 ---
-title: Exercise: Query a state system
-subtitle: 
+# Exercise: Query a state system
+## 
 
 - Reset to **TRACECOMPASS4.4_START**
 - Open view class ProcessingStatesView
@@ -1353,8 +1349,8 @@ subtitle:
 - **Go!**	
 
 ---
-title: Exercise Review
-subtitle: What we accomplished
+# Exercise Review
+## What we accomplished
 
 - Understanding of state values and state intervals
 - Getting attribute quarks
@@ -1363,8 +1359,8 @@ subtitle: What we accomplished
 - Querying a history range
 
 ---
-title: Module 5
-subtitle: Time Graph Views
+# Module 5
+## Time Graph Views
 
 - Time Graph Viewer Overview
 - Time Graph Viewer Model
@@ -1374,14 +1370,14 @@ subtitle: Time Graph Views
 - Searching and Filtering in Time Graph View
 
 ---
-title: Time Graph Viewer Overview
-subtitle: 
+# Time Graph Viewer Overview
+## 
 
 <center><img src="images/TimeGraphView-explained.png" width="100%" height="100%"/></center>
 
 ---
-title: Time Graph Viewer Overview
-subtitle:
+# Time Graph Viewer Overview
+##
 
 - Visualizes **states** over time
 	- For example, processes, threads, cores, IRQs...
@@ -1396,8 +1392,8 @@ subtitle:
 - **Tree** structure that supports **columns**
 
 ---
-title: How to create a Time Graph viewer?
-subtitle: 
+# How to create a Time Graph viewer?
+## 
 
 - Create a Time Graph viewer instance: `TimeGraphViewer`
 - Define content provider to provide Time Graph Model root entries
@@ -1415,15 +1411,15 @@ viewer.setInput(getModel();
 ~~~
 
 ---
-title: Time Graph Model
-subtitle: 
+# Time Graph Model
+## 
 
 <center><img src="images/TimeGraphView-Model.png" width="50%" height="50%"/></center>
 
 ---
 
-title: Time Graph Model (2)
-subtitle: ITimeGraphEntry
+# Time Graph Model (2)
+## ITimeGraphEntry
 content_class: smaller
 
 <center><img src="images/TimeGraphEntries.png" width="70%" height="70%"/></center>
@@ -1442,8 +1438,8 @@ Iterator<? extends ITimeEvent> getTimeEventsIterator();
 ~~~
 
 ---
-title: Time Graph Model (3)
-subtitle: ITimeEvent
+# Time Graph Model (3)
+## ITimeEvent
 
 <center><img src="images/TimeEvents.png" width="50%" height="50%"/></center>
 
@@ -1460,8 +1456,8 @@ long getDuration();
 
 
 ---
-title: Presentation Provider
-subtitle: 
+# Presentation Provider
+## 
 content_class: smaller
 
 - Provides the **colors** to be used for each time event
@@ -1480,8 +1476,8 @@ Map<String, String> getEventHoverToolTipInfo(ITimeEvent event);
 ~~~
 
 ---
-title: Exercise: Create a Time Graph Viewer
-subtitle: 
+# Exercise: Create a Time Graph Viewer
+## 
 
 - Reset to **TRACECOMPASS5.1_START**
 - Open view class ProcessingStatesView
@@ -1494,8 +1490,8 @@ subtitle:
 - **Go!**
 
 ---
-title: Exercise Review
-subtitle: What we accomplished
+# Exercise Review
+## What we accomplished
 
 - Creating a Time Graph Viewer
 - Setting a presentation provider
@@ -1503,8 +1499,8 @@ subtitle: What we accomplished
 - Exploring of the Time Graph Viewer navigation
 
 ---
-title: Time Graph View Overview
-subtitle: 
+# Time Graph View Overview
+## 
 
 - **Eclipse view** wrapping Time Graph Viewer 
 - Common **abstract class** with reoccurring and reusable code
@@ -1518,8 +1514,8 @@ subtitle:
 - Can interface with state systems
 
 ---
-title: Time Graph View Overview (2)
-subtitle: 
+# Time Graph View Overview (2)
+## 
 content_class: smaller
 
 - Typically views extend abstract classes
@@ -1538,14 +1534,14 @@ content_class: smaller
 	- Possible to serialize data structure from data provider
 
 ---
-title: Class Hierarchy
-subtitle: 
+# Class Hierarchy
+## 
 
 <center><img src="images/AbstractTimeGraphView.png" width="80%" height="80%"/></center>
 
 ---
-title: Time Graph View API
-subtitle: AbstractTimeGraphView
+# Time Graph View API
+## AbstractTimeGraphView
 
 - **Build thread**:
 	- Build list of **time graph entries** (rows)
@@ -1560,8 +1556,8 @@ protected abstract void buildEntryList(ITmfTrace trace,
 ~~~
 
 ---
-title: Time Graph View API (2)
-subtitle: AbstractTimeGraphView
+# Time Graph View API (2)
+## AbstractTimeGraphView
 
 - **Zoom thread**:
 	- Build **time event** list for each time graph entry
@@ -1574,8 +1570,8 @@ protected abstract List<ITimeEvent> getEventList(
 ~~~
 
 ---
-title: Create a Time Graph View
-subtitle:
+# Create a Time Graph View
+##
 content_class: smaller
 
 ~~~java
@@ -1602,8 +1598,8 @@ public class ProcessingStatesView extends AbstractTimeGraphView {
 ~~~
 
 ---
-title: Arrows in Time Graph View
-subtitle: AbstractTimeGraphView
+# Arrows in Time Graph View
+## AbstractTimeGraphView
 
 - Creates **arrows** between time graph entries for a given start and end time
 - Computed for the current zoom window
@@ -1618,8 +1614,8 @@ protected List<ILinkEvent> getLinkList(long startTime,
 - List will be propagated to TimeGraphViewer object
 
 ---
-title: Markers in Time Graph View
-subtitle: AbstractTimeGraphView
+# Markers in Time Graph View
+## AbstractTimeGraphView
 
 - Markers are **overlays** in the viewer
 - Shown also on ** maker axis**
@@ -1635,8 +1631,8 @@ protected List<IMarkerEvent> getViewMarkerList(long startTime,
 ~~~
 
 ---
-title: Filtering and Searching
-subtitle: 
+# Filtering and Searching
+## 
 
 - Possibility to provide **filter** for **time graph entries** (rows)
 - Filter dialog uses a regular tree viewer 
@@ -1653,8 +1649,8 @@ setFilterLabelProvider(new FilterLabelProvider());
 	- Use key shortcut **CTRL+F**
 
 ---
-title: Exercise: Create a Time Graph View
-subtitle: 
+# Exercise: Create a Time Graph View
+## 
 
 - Reset to **TRACECOMPASS5.2_START**
 - Open view class ProcessingStatesView
@@ -1669,8 +1665,8 @@ subtitle:
 - **Go!**
 
 ---
-title: Exercise Review
-subtitle: What we accomplished 
+# Exercise Review
+## What we accomplished 
 
 - Extending the AbstractTimeGraphView
 - Understanding concept of build and zoom thread
@@ -1679,8 +1675,8 @@ subtitle: What we accomplished
 - Exploring of the Time Graph View
 
 ---
-title: Time Graph View API
-subtitle: AbstractStateSystemTimeGraphView
+# Time Graph View API
+## AbstractStateSystemTimeGraphView
 
 - Populate time graph entries (rows) **by time**
 - **Build thread**:
@@ -1702,8 +1698,8 @@ public interface IQueryHandler {
 ~~~
 
 ---
-title: Time Graph View API (2)
-subtitle: AbstractStateSystemTimeGraphView
+# Time Graph View API (2)
+## AbstractStateSystemTimeGraphView
 
 - **Zoom thread**:
 	- Builds time event list for each time graph entry
@@ -1719,8 +1715,8 @@ protected abstract List<ITimeEvent> getEventList(
 ~~~
 
 ---
-title: Time Graph View API (3)
-subtitle: AbstractStateSystemTimeGraphView
+# Time Graph View API (3)
+## AbstractStateSystemTimeGraphView
 
 - Providing a list of **linked events**
 
@@ -1742,18 +1738,18 @@ protected List<IMarkerEvent> getViewMarkerList(
 ~~~
 
 ---
-title: TODO Data Provider API
-subtitle:
+# TODO Data Provider API
+##
 
 - TODO
  
 ---
-title: Module 6
-subtitle: Timing Analysis
+# Module 6
+## Timing Analysis
 
 ---
-title: Timing Analysis
-subtitle: Concept
+# Timing Analysis
+## Concept
 
 - We have two metrics to analyse, what is the data and **when** did it come.
 - Every event has **time** info (time stamp), let's take advantage of that.
@@ -1766,8 +1762,8 @@ subtitle: Concept
 - Represent Execution times, latencies, latency chains etc.
 
 ---
-title: Timing Analysis
-subtitle: Why?
+# Timing Analysis
+## Why?
 
 - Locate timing problems
 - Analyse timing problems
@@ -1776,24 +1772,24 @@ subtitle: Why?
 - Difficult to debug if it happens sporadically
 
 ---
-title: Timing Analysis
-subtitle: Example
+# Timing Analysis
+## Example
 
 - System Call Latency, e.g. futex
 
 <center><img src="images/timing_systemcalls.png"/></center>
 
 ---
-title: Timing Analysis
-subtitle: Example
+# Timing Analysis
+## Example
 
 - IRQ Latency
 
 <center><img src="images/timing_irq.png"/></center>
 
 ---
-title: Timing Analysis
-subtitle: Example
+# Timing Analysis
+## Example
 
 - High Resolution Timer – cyclictest application of rt-tests
 - Latency between timer expiry until task starts
@@ -1807,8 +1803,8 @@ subtitle: Example
 	- Event 4: Application task begins executing
 
 ---
-title: Timing Analysis
-subtitle: Generalization
+# Timing Analysis
+## Generalization
 
 <center>
 <div style="display:table-cell; width:50%;"><img style="width:400px; height:auto" src="images/timing_states.png"/></div>
@@ -1823,8 +1819,8 @@ subtitle: Generalization
 </center>
 
 ---
-title: Timing Analysis
-subtitle: Using states
+# Timing Analysis
+## Using states
 
 - State machine for timing analysis
 	- Implementation in Java as Trace Compass extension
@@ -1833,8 +1829,8 @@ subtitle: Using states
 	- Defining timing analyses on-the-fly
 
 ---
-title: Timing Analysis API
-subtitle: ISegment
+# Timing Analysis API
+## ISegment
 
 - A segment provides a **start time** and an **end time**
 - What that duration means is specific to the analysis that will generate it
@@ -1843,8 +1839,8 @@ subtitle: ISegment
 <center><img src="images/timing_segment.png"/></center>
 
 ---
-title: Timing Analysis API
-subtitle: ISegmentStore
+# Timing Analysis API
+## ISegmentStore
 
 - Stores segments (`ISegment`)
 - Extends "well known" Java `Collection` interface
@@ -1854,8 +1850,8 @@ subtitle: ISegmentStore
 <center><img src="images/timing_segmentstore.png"/></center>
 
 ---
-title: Timing Analysis API
-subtitle: Limitations
+# Timing Analysis API
+## Limitations
 
 - Segement store can be in memory or on disk
 - If your trace will generate many segments, use `SegmentStoreType.OnDisk`
@@ -1866,8 +1862,8 @@ to the SWT implementation of the virtual table in Linux
 
 
 ---
-title: Timing Analysis API
-subtitle: AbstractSegmentStoreAnalysisModule
+# Timing Analysis API
+## AbstractSegmentStoreAnalysisModule
 
 - Similar to normal analysis but with the notion of segments
 - **Builds** segments and **stores** them: `buildAnalysisSegments()`
@@ -1876,7 +1872,7 @@ subtitle: AbstractSegmentStoreAnalysisModule
 <center><img src="images/timing_segmentanalysis.png"/></center>
 
 ---
-title: Exercise: Create segment store module
+# Exercise: Create segment store module
 
 - Reset to **TRACECOMPASS6.1_START**
 - `ProcessingLatencyModule` is created for you with some **TODOS**. plugin.xml is already filled.
@@ -1886,7 +1882,7 @@ title: Exercise: Create segment store module
 	- Return all the list of aspects to be used: `Name` and `Content`
 
 ---
-title: Module 6 Review
+# Module 6 Review
 
 - **Segments** (`ISegment`) are defined by a start and an end time. They can represent things like execution times, latencies, etc.
 - Multiple segments can represent **latency chain**. For example multiple sub-steps of a process.
@@ -1896,13 +1892,13 @@ title: Module 6 Review
 - In the exercise: We have created a **segment-based analysis module** that creates segments and stores them in a segment store which will be available for our views.
 
 ---
-title: Module 7
-subtitle: Timing Analysis Views
+# Module 7
+## Timing Analysis Views
 
 
 ---
-title: Timing Analysis Views
-subtitle: Overview
+# Timing Analysis Views
+## Overview
 
 - Several types of views can be added that make use of segment store analysis
 	- Latencies (table)
@@ -1916,15 +1912,15 @@ subtitle: Overview
 	- This is similar to Time Graph views VS Time Graph Viewer
 
 ---
-title: Timing Analysis Views
-subtitle: Overview
+# Timing Analysis Views
+## Overview
 
 - Viewers query analysis based on segment stores (see previous module!)
 
 <center><img src="images/timingviews_getstore.png"/></center>
 
 ---
-title: Latency Table view
+# Latency Table view
 
 - The Latency view displays segments in a simple table format.
 
@@ -1932,15 +1928,15 @@ title: Latency Table view
 	(Example based on System Calls analysis)
 
 ---
-title: Latency Table view
-subtitle: API
+# Latency Table view
+## API
 
 - Use declarative-only API in plug-in.xml for default view 
 - Or implement `AbstractSegmentStoreTableView` and `AbstractSegmentStoreTableViewer` and hook it up in plug-in.xml
 
 ---
-title: Latency Table view (2)
-subtitle: API
+# Latency Table view (2)
+## API
 content_class: smaller
 
 - Use declarative-only API in plug-in.xml for default view 
@@ -1951,8 +1947,8 @@ content_class: smaller
 		- analysisModuleId: Segment store analysis module ID
 
 ---
-title: Latency Table view (3)
-subtitle: API
+# Latency Table view (3)
+## API
 content_class: smaller
 
 - `AbstractSegmentStoreTableView`
@@ -1970,7 +1966,7 @@ protected ISegmentStoreProvider getSegmentStoreProvider(ITmfTrace trace) {
 ~~~
 
 ---
-title: Exercise: Create a Latency Table
+# Exercise: Create a Latency Table
 
 - Reset to **TRACECOMPASS7.1_START**
 - Create class `ProcessingLatencyTableViewer`, select super class (extends)  `AbstractSegmentStoreTableViewer`
@@ -1980,7 +1976,7 @@ title: Exercise: Create a Latency Table
 - <b>Go!</b>
 
 ---
-title: Statistics view
+# Statistics view
 
 - The Statistics view displays statistics for each segment type
 	- You can also navigate to the minimum and maximum of each segment type from this view (eg. longest `futex` system call)
@@ -1988,8 +1984,8 @@ title: Statistics view
 <center><img src="images/timingviews_statistics.png"/></center>
 
 ---
-title: Statistics view (2)
-subtitle: API
+# Statistics view (2)
+## API
 content_class: smaller
 
 - Use declarative-only API in plug-in.xml for default view
@@ -2000,8 +1996,8 @@ content_class: smaller
 	- `AbstractSegmentStoreStatisticsViewer` 
 
 ---
-title: Statistics view (3)
-subtitle: API
+# Statistics view (3)
+## API
 content_class: smaller
 
 - Use declarative-only API in plug-in.xml for default view
@@ -2012,8 +2008,8 @@ content_class: smaller
 		- analysisModuleId: Segment store analysis module ID
 
 ---
-title: Statistics view (4) - TODO update
-subtitle: API 
+# Statistics view (4) - TODO update
+## API 
 
 - Non-declarative way
 - `AbstractSegmentStatisticsAnalysis`
@@ -2029,8 +2025,8 @@ protected ISegmentStoreProvider getSegmentProviderAnalysis(ITmfTrace trace) {
 ~~~
 
 ---
-title: Statistics view (5) - TODO update
-subtitle: API
+# Statistics view (5) - TODO update
+## API
 
 - `AbstractSegmentsStatisticsView`
 	- An abstract class that helps create a statistics view.
@@ -2042,7 +2038,7 @@ subtitle: API
 	- `updateElements`: creates and updates items in the statistics tree. This is where a hierarchy can be created.
 
 ---
-title: Exercise: Create a Statistics View
+# Exercise: Create a Statistics View
 
 - Reset to **TRACECOMPASS7.2_START**
 - In plugin.xml, create view extension and use class `SegmentStoreStatisticsView`.
@@ -2051,7 +2047,7 @@ title: Exercise: Create a Statistics View
 - <b>Go!</b>
 
 ---
-title: Scatter chart - TODO update picture
+# Scatter chart - TODO update picture
 
 - The Scatter view displays the segment durations over time in a 2D plot chart
 	- Each dot represents the time it ended on the X-axis and its duration on the Y-axis
@@ -2060,8 +2056,8 @@ title: Scatter chart - TODO update picture
 <center><img src="images/timingviews_scatter.png"/></center>
 
 ---
-title: Scatter chart
-subtitle: API
+# Scatter chart
+## API
 
 - `TmfChartView`
 	- An abstract class that helps create a view based on a chart (SWTChart)
@@ -2072,7 +2068,7 @@ subtitle: API
 	- Implement constructor to pass correct latency analysis module ID
 
 ---
-title: Exercise: Create a Scatter View
+# Exercise: Create a Scatter View
 
 - Reset to **TRACECOMPASS7.3_START**
 - Create class `ProcessingLatencyScatterGraphViewer`, select super class (extends)  `AbstractSegmentStoreScatterChartViewer`
@@ -2083,7 +2079,7 @@ title: Exercise: Create a Scatter View
 - <b>Go!</b>
 
 ---
-title: Density view
+# Density view
 
 - The Density view displays the segment durations on the frequency domain.
 	- Each bar represents the **duration** of the segment on the **X-axis** and the **count** of segments on the **Y-axis**
@@ -2092,8 +2088,8 @@ title: Density view
 - In other words, fast system calls are on the left and slow system calls are on the right
 
 ---
-title: Density view
-subtitle: API
+# Density view
+## API
 
 - `AbstractSegmentStoreDensityView`
 	- An abstract class that helps create a density view
@@ -2105,7 +2101,7 @@ subtitle: API
 	- `getSegmentStoreProvider`: returns which analysis module will provide the segment
 
 ---
-title: Exercise: Create a Density View
+# Exercise: Create a Density View
 
 - Reset to **TRACECOMPASS7.4_START**
 - Create class `ProcessingLatencyDensityViewer`, select super class (extends)  `AbstractSegmentStoreDensityViewer`
@@ -2116,7 +2112,7 @@ title: Exercise: Create a Density View
 - <b>Go!</b>
 
 ---
-title: Module 7 Review
+# Module 7 Review
 
 - Many views can be built by reading a **segment store**.
 - In the exercises, we have created:
@@ -2127,12 +2123,12 @@ title: Module 7 Review
 - Those views can be generated by follow a similar patter of creating a **viewer inside a view**, and specifying the segment store to use.
 
 ---
-title: Module 8
-subtitle: Custom Analysis
+# Module 8
+## Custom Analysis
 
 ---
-title: XML analysis basic
-subtitle:
+# XML analysis basic
+##
 
 - The joys of XML analysis
 	- Customize Trace Compass without recompiling
@@ -2142,8 +2138,8 @@ subtitle:
 	- Find an execution flow within the trace
 
 ---
-title: XML analysis basic
-subtitle: Advanced pattern matching
+# XML analysis basic
+## Advanced pattern matching
 content_class: smaller
 
 - Find **stateful** sequence within the trace
@@ -2152,8 +2148,8 @@ content_class: smaller
 <center><img src="images/xml/general_pattern.png" width="60%" height="60%"/></center>
 
 ---
-title: XML analysis basic
-subtitle: Advanced pattern matching
+# XML analysis basic
+## Advanced pattern matching
 content_class: smaller
 
 - XML description
@@ -2179,8 +2175,8 @@ content_class: smaller
 ~~~
 
 ---
-title: XML analysis basic
-subtitle: Generic views
+# XML analysis basic
+## Generic views
 
 <center>
 <div style="display:table-cell; width:50%;"><img style="width:300px; height:auto" src="images/xml/tracecompass_xml_timegraph.png"/></div>
@@ -2194,8 +2190,8 @@ subtitle: Generic views
 </center>
 
 ---
-title: How do we use an XML analysis?
-subtitle:
+# How do we use an XML analysis?
+##
 
 <center>
 <div style="display:table-cell; width:50%; text-align: center; vertical-align: middle"><span>**Define** the analysis</span></div>
@@ -2209,8 +2205,8 @@ subtitle:
 </center>
 
 ---
-title: Exercise: Importing the XML analysis
-subtitle:
+# Exercise: Importing the XML analysis
+##
 content_class: smaller
 
 - Reset to commit **TRACECOMPASS8.1_START**
@@ -2223,14 +2219,14 @@ content_class: smaller
 - The analysis is present under the trace _training_ust_001_
 
 ---
-title: Exercise: Importing the XML analysis
-subtitle:
+# Exercise: Importing the XML analysis
+##
 
 <center><img src="images/xml/ManageXMLAnalysis.png" width="70%" height="70%"/></center>
 
 ---
-title: Exercise: Execute the XML analysis
-subtitle: 
+# Exercise: Execute the XML analysis
+## 
 
 - Open the trace.
 	- The `Processing Analysis XML` analysis should be now expandable.
@@ -2241,8 +2237,8 @@ subtitle:
 - Open the view named `Processing States XML`
 
 ---
-title: Exercise: Observe the analysis 
-subtitle: 
+# Exercise: Observe the analysis 
+## 
 
 - A timegraph view opens and is `populated`
 
@@ -2253,8 +2249,8 @@ subtitle:
 - Let's take a look at the XML file
 
 ---
-title: Exercise: Edit the analysis
-subtitle: 
+# Exercise: Edit the analysis
+## 
 
 - Reopen the **Manage XML analyses...** dialog (seen previously)
 - Select **training-example-full-states** and click on the 'Edit' button
@@ -2264,8 +2260,8 @@ subtitle:
 - The XML file opens in an editor
 
 ---
-title: Exercise: Edit the analysis
-subtitle: 
+# Exercise: Edit the analysis
+## 
 
 - We can see that there are some `stateChange` where the  `stateValue` is set to **null**.
 ~~~xml
@@ -2277,8 +2273,8 @@ subtitle:
 - Let's edit the XML file
 
 ---
-title: Exercise: Edit the analysis
-subtitle: 
+# Exercise: Edit the analysis
+## 
 
 - Change the **stateValue** for event `ust_master:PROCESS_INIT` to `$INITIALIZING`
 ~~~xml
@@ -2294,16 +2290,16 @@ subtitle:
 - Reopen the trace and the view
 
 ---
-title: Exercise: Edit the analysis
-subtitle:
+# Exercise: Edit the analysis
+##
 
 <center><img src="images/xml/filled_entries.png" width="40%" height="40%"/></center>
 
 - The view is populated. There is **no empty entry**.
 
 ---
-title: Exercise review
-subtitle:
+# Exercise review
+##
 
 - In the exercise, we have
 	- Imported an XML analysis
@@ -2311,8 +2307,8 @@ subtitle:
 	- Executed the XML analysis and analyzed the data
 
 ---
-title: Exercise: Timing Analysis
-subtitle:
+# Exercise: Timing Analysis
+##
 
 - Reset to commit **TRACECOMPASS8.2_START**
 - Import the **training-example-processing-timing.xml** file
@@ -2323,8 +2319,8 @@ subtitle:
 - The analysis is present under the trace _training_ust_001_
 
 ---
-title: Timing Analysis
-subtitle:
+# Timing Analysis
+##
 
 - Reopen The trace
     - Several views are now present under the analysis.
@@ -2334,8 +2330,8 @@ subtitle:
 - Open all 4 latency views
 
 ---
-title: Exercise: Observe the analysis
-subtitle:
+# Exercise: Observe the analysis
+##
 
 - All the views are empty
 	- **The analysis probably does not create any latency data**
@@ -2343,7 +2339,7 @@ subtitle:
 - Let's take a look at the XML file
 
 ---
-title: Exercise: Edit the analysis
+# Exercise: Edit the analysis
 content_class: smaller 
 
 - Open the XML file (using Edit)
@@ -2368,8 +2364,8 @@ content_class: smaller
 - Let's edit the XML file
 
 ---
-title: Exercise: Edit the analysis
-subtitle:
+# Exercise: Edit the analysis
+##
 
 - We need to call the action when the processing ended (when we receive the `ust_master:PROCESS_END` event).
 - Let's add an action to the `ust_master:PROCESS_END` event transition.
@@ -2384,15 +2380,15 @@ subtitle:
 - The latency views and content are the same as the Java analysis
 
 ---
-title: Exercise: Analysis result
-subtitle:
+# Exercise: Analysis result
+##
 content_class: smaller
 
 <center><img src="images/xml/latency_views_populated.png" width="70%" height="70%"/></center>
 
 ---
-title: Exercise Review
-subtitle: 
+# Exercise Review
+## 
 
 - In the exercise, we have:
 	- Generated latency data using XML analysis
@@ -2400,8 +2396,8 @@ subtitle:
 	- Visualized latency data in various latency views 
 
 ---
-title: Module 8 review
-subtitle: What we have seen
+# Module 8 review
+## What we have seen
 
 - In this module, we have:
 	- Learned how to `import an XML analysis`
