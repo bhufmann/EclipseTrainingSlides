@@ -1,7 +1,8 @@
 
 .reveal h1,.reveal h2 {
     font-family: hilda, Arial, 'Helvetica Neue', Helvetica, sans-serif;
-    font-weight: 300
+    font-weight: 300;
+    text-transform: none
 }
 
 .reveal {
