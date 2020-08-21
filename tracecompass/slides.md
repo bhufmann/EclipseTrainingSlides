@@ -1308,14 +1308,15 @@ public static List&lt;ITmfStateInterval> queryHistoryRange(
 
 ---
 # Module 5
-## Time Graph Views
+## Time Graph and XY Chart Views
 
 - Time Graph Viewer Overview
 - Time Graph Viewer Model
 - Time Graph Viewer API
 - Time Graph View Overview
 - Time Graph View API
-- Searching and Filtering in Time Graph View
+- Abstract Time Chart Data Provider API
+- Style API
 
 ---
 # Time Graph Viewer Overview
@@ -1332,7 +1333,7 @@ public static List&lt;ITmfStateInterval> queryHistoryRange(
 	- **Zooming**
 	- **Searching** (rows and states)
 	- **Filtering** (rows and states)
-	- **Highlighting** of regions of interest (makers or time selection)
+	- **Highlighting** of regions of interest (markers or time selection)
 - Supports drawing of **arrows** and **symbols**
 - **Tree** structure that supports **columns**
 
@@ -1865,7 +1866,7 @@ public class ProcessingStatesDataProvider extends AbstractTimeGraphDataProvider&
 	@NonNull TimeGraphEntryModel> implements IOutputAnnotationProvider, IOutputStyleProvider {
 
 	// Constructor
-	public ProcessingStatesDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingStatesAnalysisModule module) {
+	public ProcessingStatesDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
 		super(trace, module);
 	}
 
@@ -1989,6 +1990,310 @@ public class ProcessingStatesDataProvider extends AbstractTimeGraphDataProvider&
 - **Go!**
 
 ---
+# XY Chart Viewer Overview
+- Visualizes **numerical values** over time
+  - For example, CPU utilization, I/O, etc...
+  - Can be shown as line chart, area chart, bar chart, or scatter chart
+- Provides common features
+  - Common **Time Axis** (`TimeGraphScale`)
+  - **Navigation** with mouse, keyboard and toolbar buttons
+  - **Selection** of time or time range
+  - **Zooming**
+  - **Tooltips**
+- **Series** model for X-values and Y-values
+
+---
+# TmfCommonXAxisChartViewer
+- Base abstract class that handles most XY chart features
+- Reacts to trace opened, selected, closed signals
+- Implements time synchronization for the X Axis
+- Requires a data provider that implements `ITmfXYDataProvider`
+- Uses the `BaseXYPresentationProvider` by default
+
+---
+# TmfFilteredXYChartViewer
+- Used in conjunction with an `AbstractSelectTreeViewer2` in a `TmfChartView`
+- Reacts to change of checked elements in the tree viewer
+- Fetches a data provider that implements `ITmfTreeXYDataProvider` by the ID specified in constructor
+
+---
+# How to create an XY Chart viewer?
+- Create a subclass of `TmfCommonXAxisChartViewer`
+  - Implement method `initializeDataProvider` to return an instance of `ITmfXYDataProvider`
+
+---
+# How to create an XY Chart view
+- Create a subclass of `TmfChartView`
+- Override createLeftChildViewer() to return an instance of `AbstractSelectTreeViewer2`
+- Override createChartViewer() to return an instance of `TmfFilteredXYChartViewer`
+- Construct both viewers with the same data provider ID implementing `ITmfTreeXYDataProvider` as parameter
+- Both viewers will use the same data provider instance
+
+---
+# ITmfTreeXYDataProvider API
+- This interface extends both `ITmfTreeDataProvider` and `ITmfXYDataProvider`
+- Create the data provider factory and declare it in plugin.xml `org.eclipse.tracecompass.tmf.core.dataprovider` extension to associate it to the data provider ID
+- Create the data provider implementation
+  - Implement fetchTree() to return the tree of elements, with leafs of the tree representing a data series
+  - Implement fetchXY() to return the collection of series data, each series containing X data and Y data arrays
+
+---
+## AbstractTreeDataProvider
+- This class implements a data provider that is associated with an analysis that creates a state system
+- The implementation should provide the tree of items to be selected, some of which would be associated with a data series
+- The concrete class should extend `ITmfXYDataProvider` and implement if it is to be used in an XY Chart
+
+---
+## AbstractTreeDataProvider (tree)
+```java
+protected abstract TmfTreeModel&lt;M> getTree(ITmfStateSystem ss, Map&lt;String, Object> fetchParameters,
+			@Nullable IProgressMonitor monitor) throws StateSystemDisposedException;
+```
+
+- Input `fetchParameters`
+  - `REQUESTED_TIME_KEY : List<Long>`: list of start and end time of the current window range
+- Output `TmfTreeModel`
+  - `List<String> headers`: Column header names of tree on left of XY chart
+  - `List<ITmfTreeDataModel> entries`: Each element represents an item in the tree. Order of entries is significant.
+    - `long id`: unique number (in scope) of this element
+    - `long parentId`: parent id or `-1` for a root
+    - `String name` and/or `List<String> labels`: Element name / column values of tree on left of time graph
+    - `OutputElementStyle style`: Optional, if null a style will be automatically created
+    - `boolean hasRowModel`: Indicates if the element is associated with a data series
+  - `String scope`: Optional, if used, indicates a common scope for shared element id between multiple data providers
+- This can be called multiple times if the state system is being built while the view is shown.
+- The data provider should keep track of its allocated entry ids. They should be reused for the same entries on subsequent calls, and is used later when requested XY data for a specific series.
+- The typical implementation is to query a state system's attribute tree and to create elements associated with their corresponding state system attribute.
+
+---
+## ITmfXYDataProvider (XY data)
+```java
+TmfModelResponsel&lt;ITmfXyModel> fetchXY(Mapl&lt;String, Object> fetchParameters, @Nullable IProgressMonitor monitor);
+```
+
+- Input `fetchParameters`
+  - `REQUESTED_TIME_KEY : List<Long>`: list of timestamps for which XY data is requested
+  - `REQUESTED_ITEMS_KEY : List<Long>`: list of the requested series ids
+- Output `ITmfXyModel`
+  - `String title`: title of the chart
+  - `boolean hasCommonAxis`: indicates if all series have a common X axis
+  - `Collection<ISeriesModel> seriesData`: Collection of data series
+    - `long id`: id of the series
+    - `String name`: name of the series
+    - `TmfXYAxisDescription xAxisDescription`: Description of the X axis (label, unit, data type)
+    - `TmfXYAxisDescription yAxisDescription`: Description of the Y axis (label, unit, data type)
+    - `DisplayType displayType`: LINE, SCATTER or AREA
+    - `long[] xAxis`: x-values array of the series points
+    - `double[] data`: y-values array of the series points
+    - `int[] properties`: Array of bitmap of active `IFilterProperty` for each point
+- This is called every time a new window range is set, when the checked state of a series is changed, etc.
+
+---
+## AbstractTreeCommonXDataProvider
+- Subclass of `AbstractTreeDataProvider` that implements `ITmfXYDataProvider`
+- Associated with an analysis that creates a state system
+- Handles data series that share the same X data array
+- X-values array is automatically computed from the current window range
+- The concrete class provides the arrays of y-values for the requested series, it must provide one y-value for each requested x-value
+
+---
+## AbstractTreeCommonXDataProvider API
+```java
+protected @Nullable Collection&lt;IYModel> getYSeriesModels(ITmfStateSystem ss,
+            Map&lt;String, Object> fetchParameters, @Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
+```
+
+- Input `fetchParameters`
+  - `REQUESTED_TIME_KEY : List<Long>`: list of timestamps for which XY data is requested
+  - `REQUESTED_ITEMS_KEY : List<Long>`: list of the requested series ids
+- Output `Collection<IYModel>`
+  - `long id`: id of the series
+  - `String name`: name of the series
+  - `double[] data`: y-values array of the series points
+  - `TmfXYAxisDescription yAxisDescription`: Description of the Y axis (label, unit, data type)
+- This is called every time a new window range is set, when the checked state of a series is changed, etc.
+
+---
+## SegmentStoreScatterDataProvider
+- Specialized data provider that is associated with an analysis that implements `ISegmentStoreProvider`
+- Creates a tree structure with series grouping using the aspects provided by this interface
+- Creates XY scatter point data based on the start time and length of each segment
+
+---
+# XYPresentationProvider
+
+- Stores the series style that is included in the returned tree model, if present
+- Otherwise it will automatically create and assign a distinct series style for each series, using a rotating palette of colors and line styles
+
+---
+# Create a Data Provider XY Chart View
+
+<center><img src="images/ProcessingValuesView.png" width="70%" height="70%"/></center>
+
+- Root is trace name
+- Challenger is from Requester/\<requester> attribute
+- 0/1/2/3 are from Requester/\<requester>/\<id> attributes
+  - Series Y-data value based on Requester/\<requester>/\<id>/number attribute
+- For scatter chart, assign each series a style with a unique color, scatter series type, no series style, diamond symbol type and height of 2.0 times the normal height
+  - Data points should be at the start time of each PROCESSING state
+- For line chart, assign each series a style with a unique color, dot series style and width of 3 pixels
+  - Values should be set for the full duration of each PROCESSING state, zero otherwise
+
+---
+## Data Provider XY Chart View skeleton
+~~~java
+public class ProcessingValues(Scatter/Line)View extends TmfChartView {
+	public ProcessingStatesView() {
+		// TODO: Call super with view ID
+		// TODO: Override createLeftChildViewer() to return an AbstractSelectTreeViewer2
+		// TODO: Override createChartViewer() to return a TmfFilteredXYChartViewer
+	}
+}
+~~~
+
+```java
+public class ProcessingValues(Scatter/Line)DataProviderFactory implements IDataProviderFactory {
+	@Override
+	public @Nullable ITmfTreeDataProvider&lt;? extends ITmfTreeDataModel> createProvider(@NonNull ITmfTrace trace) {
+		// TODO: Get the analysis module for the trace
+		// TODO: Schedule the analysis
+		// TODO: Create and return a data provider instance
+	}
+}
+```
+
+```xml
+<extension
+        point="org.eclipse.tracecompass.tmf.core.dataprovider">
+    <dataProviderFactory
+        class=""
+        id="">
+        <!--TODO: add data provider factory class-->
+        <!--TODO: add data provider ID-->
+    </dataProviderFactory>
+</extension>
+```
+
+----
+## Data Provider XY Chart View skeleton (cont.)
+```java
+public class ProcessingValuesScatterDataProvider
+		extends AbstractTreeDataProvider&lt;ProcessingTimeAnalysis, TmfTreeDataModel>
+		implements ITmfTreeXYDataProvider&lt;TmfTreeDataModel> {
+
+
+	// Constructor
+	public ProcessingValuesScatterDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
+		super(trace, module);
+	}
+
+	@Override
+	protected TmfTreeModel&lt;TmfTreeDataModel> getTree(ITmfStateSystem ss,
+		Map&lt;String, Object> fetchParameters, @Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
+
+		// TODO: Create a root element for the trace
+		// TODO: Get all the &lt;requester> attributes from the state system
+		// TODO: Get an id and create an element for each &lt;requester>
+		// TODO: Get all the &lt;id> child attributes of each &lt;requester>
+		// TODO: Get an id and create an element for each &lt;id>
+		// TODO: Return the list of all created elements
+	}
+```
+
+----
+## Data Provider XY Chart View skeleton (cont.)
+```java
+	@Override
+	public TmfModelResponse&lt;ITmfXyModel> fetchXY(
+		Map&lt;String, Object> fetchParameters,
+		@Nullable IProgressMonitor monitor) {
+
+		// TODO: Extract the requested timestamps and ids from the parameters
+		// TODO: Get the ids to quarks map for the requested ids
+		// TODO: Compile the list of quarks needed to get y-value data from state system
+		// TODO: Keep only the selected quarks that belong to a series
+		// TODO: Do a 2D query of the state system and collect the returned intervals in a tree multimap per quark
+		// TODO: For each id/quark pair, get the list of intervals
+		// TODO: Ignore id/quark pairs that do not have a series
+		// TODO: For each interval, create a data point and add to a list
+		// TODO: Convert the list to array and create a series model
+		// TODO: Return the list of all created series models
+	}
+```
+
+----
+## Data Provider XY Chart View skeleton (cont.)
+```java
+public class ProcessingValuesLineDataProvider
+		extends AbstractTreeCommonXDataProvider&lt;ProcessingTimeAnalysis, TmfTreeDataModel> {
+
+
+	// Constructor
+	public ProcessingValuesLineDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
+		super(trace, module);
+	}
+
+	@Override
+	protected TmfTreeModel&lt;TmfTreeDataModel> getTree(ITmfStateSystem ss,
+		Map&lt;String, Object> fetchParameters, @Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
+
+		// TODO: Create a root element for the trace
+		// TODO: Get all the &lt;requester> attributes from the state system
+		// TODO: Get an id and create an element for each &lt;requester>
+		// TODO: Get all the &lt;id> child attributes of each &lt;requester>
+		// TODO: Get an id and create an element for each &lt;id>
+		// TODO: Return the list of all created elements
+	}
+```
+
+----
+## Data Provider XY Chart View skeleton (cont.)
+```java
+	@Override
+	protected @Nullable Collection&lt;IYModel> getYSeriesModels(ITmfStateSystem ss,
+		Map&lt;String, Object> fetchParameters,
+		@Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
+
+
+		// TODO: Extract the requested timestamps and ids from the parameters
+		// TODO: Get the ids to quarks map for the requested ids
+		// TODO: Compile the list of quarks needed to get y-value data from state system
+		// TODO: Keep only the selected quarks that belong to a series
+		// TODO: Do a 2D query of the state system and collect the returned intervals in a tree multimap per quark
+		// TODO: For each id/quark pair, get the list of intervals
+		// TODO: Ignore id/quark pairs that do not have a series
+		// TODO: For each requested timestamp find the corresponding state interval
+		// TODO: If interval is the correct state, find the corresponding value and add to an array
+		// TODO: Otherwise add zero value to the array
+		// TODO: Create a y-series model and add to a list
+		// TODO: Return the list of all created y-series models
+	}
+```
+
+---
+# Exercise: Create a XY Chart View
+- Reset to **TRACECOMPASS5.3_START**
+- Open view classes ProcessingValuesScatterView & ProcessingValuesLineView
+  - Make view extend TmfChartView
+  - Implement constructor
+    - Call super constructor with view ID
+  - Override methods
+    - Create a left child tree viewer with the data provider ID
+    - Create a right child XY chart viewer with the data provider ID
+- Open data provider factory classes ProcessingValuesScatterDataProviderFactory & ProcessingValuesLineDataProviderFactory
+  - Get the analysis module and create a data provider instance
+- Open plugin.xml
+  - Add an extension for "org.eclipse.tracecompass.tmf.core.dataprovider" to define the two factories
+- Open data provider class ProcessingValuesScatterDataProvider
+  - Implement getTree()
+  - Implement fetchXY()
+- Open data provider class ProcessingValuesLineDataProvider
+  - Implement getTree()
+  - Implement getYSeriesModels()
+- Run Trace Compass and explore the XY Chart View features
+- **Go!**
+
+---
 # Exercise Review
 ## What we accomplished 
 
@@ -1999,6 +2304,8 @@ public class ProcessingStatesDataProvider extends AbstractTimeGraphDataProvider&
 	- Implementing getRowModel(), fetchArrows(), fetchAnnotations() -&gt; used in zoom thread
 	- Implementing fetchTooltip() -&gt; used in UI thread (when user hovers an element)
 - Exploring of the Time Graph View
+- Extending the TmfChartVIew to create a XY scatter chart and XY line chart
+- Exploring the XY Chart View
 
 ---
 # Module 6
@@ -2298,10 +2605,10 @@ protected ISegmentStoreProvider getSegmentProviderAnalysis(ITmfTrace trace) {
 - <b>Go!</b>
 
 ---
-# Scatter chart - TODO update picture
+# Scatter chart
 
 - The Scatter view displays the segment durations over time in a 2D plot chart
-	- Each dot represents the time it ended on the X-axis and its duration on the Y-axis
+	- Each dot represents the time it started on the X-axis and its duration on the Y-axis
 	- Makes it possible to spot **outliers**
 
 <center><img src="images/timingviews_scatter.png"/></center>
