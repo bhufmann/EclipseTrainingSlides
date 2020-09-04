@@ -1308,7 +1308,7 @@ public static List&lt;ITmfStateInterval> queryHistoryRange(
 
 ---
 # Module 5
-## Time Graph and XY Chart Views
+## Time Graph, XY Chart and Statistics Views
 
 - Time Graph Viewer Overview
 - Time Graph Viewer Model
@@ -1317,6 +1317,12 @@ public static List&lt;ITmfStateInterval> queryHistoryRange(
 - Time Graph View API
 - Abstract Time Chart Data Provider API
 - Style API
+- XY Chart Viewer Overview
+- Tree XY Data Provider API
+- Statistics Overview
+- Statistics Viewer
+- Statistics Model
+- Statistics Analysis
 
 ---
 # Time Graph Viewer Overview
@@ -2030,8 +2036,8 @@ public class ProcessingStatesDataProvider extends AbstractTimeGraphDataProvider&
 - Both viewers will use the same data provider instance
 
 ---
-# ITmfTreeXYDataProvider API
-- This interface extends both `ITmfTreeDataProvider` and `ITmfXYDataProvider`
+# Tree XY Data Provider API
+- The `ITmfTreeXYDataProvider` interface extends both `ITmfTreeDataProvider` and `ITmfXYDataProvider`
 - Create the data provider factory and declare it in plugin.xml `org.eclipse.tracecompass.tmf.core.dataprovider` extension to associate it to the data provider ID
 - Create the data provider implementation
   - Implement fetchTree() to return the tree of elements, with leafs of the tree representing a data series
@@ -2121,13 +2127,11 @@ protected @Nullable Collection&lt;IYModel> getYSeriesModels(ITmfStateSystem ss,
 
 ---
 # XYPresentationProvider
-
 - Stores the series style that is included in the returned tree model, if present
 - Otherwise it will automatically create and assign a distinct series style for each series, using a rotating palette of colors and line styles
 
 ---
 # Create a Data Provider XY Chart View
-
 <center><img src="images/ProcessingValuesView.png" width="70%" height="70%"/></center>
 
 - Root is trace name
@@ -2181,7 +2185,6 @@ public class ProcessingValuesScatterDataProvider
 		extends AbstractTreeDataProvider&lt;ProcessingTimeAnalysis, TmfTreeDataModel>
 		implements ITmfTreeXYDataProvider&lt;TmfTreeDataModel> {
 
-
 	// Constructor
 	public ProcessingValuesScatterDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
 		super(trace, module);
@@ -2227,7 +2230,6 @@ public class ProcessingValuesScatterDataProvider
 public class ProcessingValuesLineDataProvider
 		extends AbstractTreeCommonXDataProvider&lt;ProcessingTimeAnalysis, TmfTreeDataModel> {
 
-
 	// Constructor
 	public ProcessingValuesLineDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
 		super(trace, module);
@@ -2253,7 +2255,6 @@ public class ProcessingValuesLineDataProvider
 	protected @Nullable Collection&lt;IYModel> getYSeriesModels(ITmfStateSystem ss,
 		Map&lt;String, Object> fetchParameters,
 		@Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
-
 
 		// TODO: Extract the requested timestamps and ids from the parameters
 		// TODO: Get the ids to quarks map for the requested ids
@@ -2294,6 +2295,245 @@ public class ProcessingValuesLineDataProvider
 - **Go!**
 
 ---
+# Statistics Overview
+- Computes standard statistical values from **numerical values**
+  - minimum, maximum, average, standard deviation, total, count
+- Can be computed incrementally, updating one value at a time
+- Can be separated by type
+- Can be aggregated
+
+---
+# Statistics Model and API
+- The interface `IStatistics` is used to compute the statistics and extract them
+
+```java
+    void update(E object);
+```
+- Feeds the statistics model one object at a time, the statistics are then computed and updated internally
+
+```java
+    void merge(IStatistics&lt;E> other);
+```
+- Merges another statistics model into this one, can be used to aggregate statistics from different types into total statistics
+
+```java
+    long getMin();
+    long getMax();
+    double getMean();
+    double getStdDev();
+    double getTotal();
+    long getNbElements();
+```
+- Getters for each of the individual statistical values
+
+```java
+public class Statistics&lt;@NonNull E> implements IStatistics&lt;E> {
+    public Statistics() {...}
+    public Statistics(Function&lt;E, @Nullable ? extends @Nullable Number> mapper) {...}
+}
+```
+- Implementation of the interface with all necessary internal computations done
+- If the objects are numbers use the default constructor, but for other objects (e.g. segment, state system interval, etc...) use the constructor providing a function that maps the object into the number that should be used to compute statistics
+
+---
+# Statistics Analysis
+- The interface `IStatisticsAnalysis` can be implemented by any analysis that computes a statistics model
+- It provides interfaces to fetch the statistic model for the full range or a specific time range, as a map of statisics per type or as total statistics.
+
+```java
+	IStatistics&lt;@NonNull E> getStatsTotal();
+
+	Map&lt;String, IStatistics&lt;@NonNull E>> getStatsPerType();
+
+	IStatistics&lt;@NonNull E> getStatsForRange(long start, long end, IProgressMonitor monitor);
+
+	Map&lt;@NonNull String, IStatistics&lt;@NonNull E>> getStatsPerTypeForRange(long start, long end, IProgressMonitor monitor);
+```
+
+---
+# Statistics Viewer
+- There is no need for a specific statistics viewer, statistics can be shown in a normal tree viewer where rows are statistics types and columns are the statistic values
+- The tree can be populated using a data provider implementing the `ITmfTreeDataProvider` interface that gets its data from an analyis module implementing the `IStatisticsAnalysis` interface
+
+---
+# AbstractSegmentsStatisticsViewer
+
+- Specialized viewer that can be used if the data provider uses a `SegmentStoreStatisticsModel` as its tree model
+- Creates columns for each of the standard statistical values
+- Handles update of selection range and ignores update of window range
+- Adds context menu to navigate to max or min segment range
+
+---
+# Create a Data Provider Statistics View
+<center><img src="images/ProcessingValuesStatisticsView.png" width="50%" height="50%"/></center>
+
+- Root is trace name
+- Challenger is from Requester/\<requester> attribute
+- 0/1/2/3 are from Requester/\<requester>/\<id> attributes
+  - Statistics computed from the Requester/\<requester>/\<id>/number attribute
+  - Statistics should be counted at the start time of each PROCESSING state
+  - The number attribute interval does not necessarily start at the same time as its corresponding PROCESSING state
+- The tree viewer should show columns for Count, Minimum, Maximum and Average statistics
+  - Average value should be formatted to 3 decimals
+
+----
+# Create a Data Provider Statistics View (cont.)
+- The tree viewer should contain a Selection and Total sub-tree
+  - Statistics computed per requester Id
+  - Aggregated statistics per requester from all requester Id
+  - Aggregated statistics from all requesters
+  - Selection sub-tree updated when time selection range is changed
+  - Total sub-tree for the full time range
+  - The tree viewer should ignore change of window range
+
+---
+## Data Provider Statistics View skeleton
+~~~java
+public class ProcessingValuesStatisticsView extends TmfView {
+	public ProcessingValuesStatisticsView() {
+		// TODO: Call super with view ID
+	}
+	public void createPartControl(Composite parent) {
+		// TODO: Override createPartControl() to create an AbstractSelectTreeViewer2
+		// TODO: Override getColumnDataProvider() to provide tree column data
+		// TODO: Override setSelectionRange() to update tree
+		// TODO: Override windowRangeUpdated() to ignore window change
+		// TODO: Override getParameters() to provide selection boolean
+		// TODO: Call traceSelected() at creation with active trace
+	}
+}
+~~~
+
+```java
+public class ProcessingValuesStatisticsDataProviderFactory implements IDataProviderFactory {
+	@Override
+	public @Nullable ITmfTreeDataProvider&lt;? extends ITmfTreeDataModel> createProvider(@NonNull ITmfTrace trace) {
+		// TODO: Get the analysis module for the trace
+		// TODO: Schedule the analysis
+		// TODO: Create and return a data provider instance
+	}
+}
+```
+
+```xml
+<extension
+        point="org.eclipse.tracecompass.tmf.core.dataprovider">
+    <dataProviderFactory
+        class=""
+        id="">
+        <!--TODO: add data provider factory class-->
+        <!--TODO: add data provider ID-->
+    </dataProviderFactory>
+</extension>
+```
+
+----
+## Data Provider Statistics View skeleton (cont.)
+```java
+public class ProcessingValuesStatisticsDataProvider extends
+		AbstractTreeDataProvider&lt;ProcessingTimeAnalysis, TmfTreeDataModel> {
+
+	// Constructor
+	public ProcessingValuesStatisticsDataProvider(@NonNull ITmfTrace trace, @NonNull ProcessingTimeAnalysis module) {
+		super(trace, module);
+	}
+
+	@Override
+	protected TmfTreeModel&lt;TmfTreeDataModel> getTree(ITmfStateSystem ss,
+		Map&lt;String, Object> fetchParameters, @Nullable IProgressMonitor monitor) throws StateSystemDisposedException {
+
+		// TODO: Create a root element for the trace
+		// TODO: Add the Total sub-tree
+		// TODO: Get the total statistics per type
+		// TODO: Add the Total aggregated element
+		// TODO: Get all the &lt;requester> attributes from the state system
+		// TODO: Get an id and create an aggregated element for each &lt;requester>
+		// TODO: Get all the &lt;id> child attributes of each &lt;requester>
+		// TODO: Get an id and create an element for each &lt;id>
+		// TODO: Add the Selection sub-tree if isFiltered is true
+		// TODO: Get the range statistics per type
+		// TODO: Add the Selection aggregated element
+		// TODO: Get all the &lt;requester> attributes from the state system
+		// TODO: Get an id and create an aggregated element for each &lt;requester>
+		// TODO: Get all the &lt;id> child attributes of each &lt;requester>
+		// TODO: Get an id and create an element for each &lt;id>
+		// TODO: Return the list of all created elements
+	}
+```
+
+----
+## Data Provider Statistics View skeleton (cont.)
+```java
+public class ProcessingTimeAnalysis extends TmfStateSystemAnalysisModule
+		implements IStatisticsAnalysis&lt;ITmfStateInterval> {
+
+	@Override
+	public Map&lt;@NonNull String, IStatistics&lt;@NonNull ITmfStateInterval>> getStatsPerTypeForRange(
+		long start, long end, IProgressMonitor monitor) {
+
+		// TODO: Create a map of statistics models per type
+		// TODO: Create an aggregated statistics model for total stats
+		// TODO: Create an aggregated statistics model for each requester
+		// TODO: Create a statistics model for each requester Id
+		// TODO: Query the state intervals of the requester Id for the time range
+		// TODO: If the state is PROCESSING get the number interval at the start time
+		// TODO: Update the requester Id statistics model with the number value
+		// TODO: Add the requester Id stats to the map for type "requester/id"
+		// TODO: Merge the requester Id stats to the aggregate requester statistics model
+		// TODO: Add the requester stats to the map with for type "requester"
+		// TODO: Merge the requester stats to the aggregate total statistics model
+		// TODO: Add the total stats to the map with for type "*"
+		// TODO: Return the map of statistics models
+	}
+
+	@Override
+	public @Nullable IStatistics&lt;@NonNull ITmfStateInterval> getStatsForRange(long start, long end, IProgressMonitor monitor) {
+		// TODO: Get the stats per type for range and return the model for type "*"
+	}
+```
+
+----
+## Data Provider Statistics View skeleton (cont.)
+```java
+	@Override
+	public Map&lt;String, IStatistics&lt;@NonNull ITmfStateInterval>> getStatsPerType() {
+		// TODO: Get the stats per type for the range equal to the full range of state system
+	}
+
+	@Override
+	public @Nullable IStatistics&lt;@NonNull ITmfStateInterval> getStatsTotal() {
+		// TODO: Get the total stats per type and return the model for type "*"
+	}
+```
+
+---
+# Exercise: Create a Statistics View
+- Reset to **TRACECOMPASS5.4_START**
+- Open view class ProcessingValuesStatisticsView
+  - Make view extend TmfView
+  - Implement constructor
+    - Call super constructor with view ID
+  - Override createPartControl() method
+    - Create a tree viewer with the data provider ID
+      - Create a column data provider
+      - Handle selection range update
+      - Ignore window range update
+      - Include isSelection in fetch parameters
+    - Initialize viewer with active trace
+- Open data provider factory class ProcessingValuesStatisticsDataProviderFactory
+  - Get the analysis module and create a data provider instance
+- Open plugin.xml
+  - Add an extension for "org.eclipse.tracecompass.tmf.core.dataprovider" to define the factory
+- Open data provider class ProcessingValuesStatisticsProvider
+  - Implement getTree()
+- Open analysis module class ProcessingTimeAnalysis
+  - Make it implement IStatisticsAnalysis
+  - Implement getStatsPerTypeForRange()
+  - Implement the other interface methods avoiding code reuse
+- Run Trace Compass and explore the Statistics View features
+- **Go!**
+
+---
 # Exercise Review
 ## What we accomplished 
 
@@ -2306,6 +2546,7 @@ public class ProcessingValuesLineDataProvider
 - Exploring of the Time Graph View
 - Extending the TmfChartVIew to create a XY scatter chart and XY line chart
 - Exploring the XY Chart View
+- Extending the TmfView to create a statistics tree viewer
 
 ---
 # Module 6
@@ -2919,3 +3160,7 @@ protected ISegmentStoreProvider getSegmentProviderAnalysis(ITmfTrace trace) {
 	- Learned how to `edit the analysis`
 	- Learned how to `generate latencies data` from the XML analysis
 	- Learned how to `analyze latencies` based on XML analysis
+
+```
+
+```
